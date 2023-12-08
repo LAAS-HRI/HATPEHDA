@@ -1,0 +1,568 @@
+
+
+Number of leaves: 32
+Nb states = 108
+time to update policy: 
+0.0011949539184570312
+0.001192331314086914
+0.0011849403381347656
+0.001211404800415039
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"p", "on":["l1","l2"]},
+        "l4" :{"color":"w", "on":["l3"]},
+        "l5" :{"color":"b", "on":["l3"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":0, "H":0},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":0, "T":0, "H":1},
+        "w": {"R":1, "BR":0, "T":0, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":0},
+    })
+0.07924008369445801
+0.07688379287719727
+0.07606816291809082
+0.07644438743591309
+
+
+
+
+Number of leaves: 120
+Nb states = 402
+time to update policy: 
+0.005867481231689453
+0.005914926528930664
+0.006035566329956055
+0.005960941314697266
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"p", "on":["l1","l2"]},
+        "l4" :{"color":"w", "on":["l3"]},
+        "l5" :{"color":"b", "on":["l3"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":0},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":0, "T":0, "H":1},
+        "w": {"R":1, "BR":0, "T":0, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":0},
+    })
+0.2847304344177246
+0.2806253433227539
+0.28690457344055176
+0.28476905822753906
+
+Number of leaves: 176
+Nb states = 586
+time to update policy: 
+0.009793281555175781
+0.009222269058227539
+0.009265661239624023
+0.009515762329101562
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"p", "on":["l1","l2"]},
+        "l4" :{"color":"w", "on":["l3"]},
+        "l5" :{"color":"b", "on":["l3"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":0},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":1, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":0, "T":0, "H":1},
+        "w": {"R":1, "BR":0, "T":0, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":0},
+    })
+0.4142637252807617
+0.4193997383117676
+0.41933226585388184
+0.4163022041320801
+
+
+
+Number of leaves: 396
+Nb states = 1070
+time to update policy: 
+0.024869441986083984
+0.024295568466186523
+0.02555251121520996
+0.02539825439453125
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"p", "on":["l1","l2"]},
+        "l4" :{"color":"w", "on":["l3"]},
+        "l5" :{"color":"b", "on":["l3"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":0},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":1, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":0, "T":0, "H":1},
+        "w": {"R":1, "BR":0, "T":0, "H":0},
+        "b": {"R":0, "BR":1, "T":1, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":0},
+    })
+0.8033394813537598
+0.8197221755981445
+0.813992977142334
+0.8160750865936279
+
+
+Number of leaves: 1035
+Nb states = 2667
+time to update policy: 
+0.07891368865966797
+0.07815027236938477
+0.08054208755493164
+0.08051347732543945
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"p", "on":["l1","l2"]},
+        "l4" :{"color":"w", "on":["l3"]},
+        "l5" :{"color":"b", "on":["l3"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":0},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":0, "T":0, "H":1},
+        "w": {"R":1, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":1, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":0},
+    })
+1.8584990501403809
+1.8803019523620605
+1.8731646537780762
+1.870081901550293
+
+Number of leaves: 828
+Nb states = 3129
+time to update policy: 
+0.06672310829162598
+0.06534457206726074
+0.06606030464172363
+0.06412029266357422
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        # "l7" :{"color":"b", "on":["l5"]},
+        # "l8" :{"color":"p", "on":["l6","l7"]},
+        # "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":2, "BR":0, "T":1, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":1, "BR":0, "T":0, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+2.0274646282196045
+2.0057621002197266
+2.0178346633911133
+2.010526180267334
+
+
+Number of leaves: 2268
+Nb states = 7315
+time to update policy: 
+0.2159273624420166
+0.2032017707824707
+0.20716547966003418
+0.2038884162902832
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        # "l8" :{"color":"p", "on":["l6","l7"]},
+        # "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":2, "BR":0, "T":0, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":1, "BR":0, "T":0, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+4.677448272705078
+4.677031993865967
+4.71589732170105
+4.711291551589966
+
+
+
+Number of leaves: 2268
+Nb states = 9583
+time to update policy: 
+0.2159273624420166
+0.2032017707824707
+0.20716547966003418
+0.2038884162902832
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        # "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":2, "BR":0, "T":0, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":1, "BR":0, "T":0, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+6.910911798477173
+6.8859946727752686
+6.934314727783203
+6.9903178215026855
+
+
+
+Number of leaves: 2268
+Nb states = 11851
+time to update policy: 
+0.2365274429321289
+0.23797082901000977
+0.23846101760864258
+0.23533987998962402
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":2, "BR":0, "T":0, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":1, "BR":0, "T":0, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+9.578814506530762
+9.548667430877686
+9.493215799331665
+9.500204801559448
+
+
+Number of leaves: 8064
+Nb states = 21035
+time to update policy: 
+1.184626817703247
+1.2050578594207764
+1.2113332748413086
+1.210256814956665
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"b", "on":["center"]},
+        "l4" :{"color":"g", "on":["l1","l2"]},
+        "l5" :{"color":"r", "on":["l3"]},
+        "l6" :{"color":"r", "on":["l4"]},
+        # "l7" :{"color":"g", "on":["l4","l5"]},
+        # "l8" :{"color":"r", "on":["l6"]},
+        # "l9" :{"color":"r", "on":["l7"]},
+        # "l10":{"color":"r", "on":["l7"]},
+        # "l11":{"color":"g", "on":["l8","l9"]},
+        # "l12":{"color":"r", "on":["l10"]},
+        # "l13":{"color":"g", "on":["l11","l12"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":5, "BR":0, "T":2, "H":5},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":2, "BR":0, "T":0, "H":0},
+        "p": {"R":0, "BR":0, "T":0, "H":0},
+        "w": {"R":0, "BR":0, "T":0, "H":0},
+        "b": {"R":0, "BR":0, "T":0, "H":1},
+        "g": {"R":2, "BR":0, "T":2, "H":2},
+    })
+15.645504236221313
+15.463854551315308
+15.377098083496094
+15.608862400054932
+
+
+Number of leaves: 11340
+Nb states = 48463
+time to update policy: 
+1.7547459602355957
+1.722529649734497
+1.7623622417449951
+1.7391889095306396
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":2, "BR":0, "T":0, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":1, "BR":0, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+37.00397253036499
+36.65548133850098
+36.39902210235596
+36.69495964050293
+
+
+Number of leaves: 19305
+Nb states = 79284
+time to update policy: 
+3.5723204612731934
+3.6785197257995605
+3.7947521209716797
+3.7754101753234863
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":0, "BR":0, "T":1, "H":2},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":1, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+57.63185477256775
+57.862412452697754
+58.431052923202515
+58.70907998085022
+
+
+Number of leaves: 27885
+Nb states = 92121
+time to update policy: 
+5.212216138839722
+5.509880781173706
+5.233620643615723
+5.145788669586182
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        # "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":0, "BR":0, "T":2, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":1, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+64.19844055175781
+63.94210934638977
+63.02990674972534
+63.50985407829285
+
+
+Number of leaves: 36465
+Nb states = 120465
+time to update policy: 
+7.155802249908447
+7.266343355178833
+7.021413326263428
+7.215100288391113
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        # "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":1, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+82.56426286697388
+83.72567248344421
+83.08335089683533
+82.04813361167908
+
+
+
+Number of leaves: 39390
+Nb states = 130117
+time to update policy: 
+8.110180616378784
+8.041507482528687
+8.465101718902588
+8.124301433563232
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        # "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":2},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":1, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+90.74672508239746
+90.05250263214111
+90.01652932167053
+90.029043674469
+
+
+Number of leaves: 41340
+Nb states = 160371
+time to update policy: 
+8.653865098953247
+8.448425531387329
+8.508157730102539
+8.372602462768555
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":0, "BR":0, "T":2, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":1, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+114.47003102302551
+114.36353278160095
+112.38787174224854
+115.06575560569763
+
+
+Number of leaves: 44070
+Nb states = 179745
+time to update policy: 
+8.799632549285889
+9.288140535354614
+9.576209306716919
+9.236226320266724
+initial_state.create_static_fluent("solution", {
+        "l1" :{"color":"r", "on":["center"]},
+        "l2" :{"color":"y", "on":["center"]},
+        "l3" :{"color":"g", "on":["l1"]},
+        "l4" :{"color":"r", "on":["l2"]},
+        "l5" :{"color":"p", "on":["l3","l4"]},
+        "l6" :{"color":"w", "on":["l5"]},
+        "l7" :{"color":"b", "on":["l5"]},
+        "l8" :{"color":"p", "on":["l6","l7"]},
+        "l9" :{"color":"r", "on":["l8"]},
+    })
+    # Dynamic properties
+    initial_state.create_dyn_fluent("color_cubes", {
+        "r": {"R":1, "BR":0, "T":1, "H":1},
+        "o": {"R":0, "BR":0, "T":0, "H":0},
+        "y": {"R":0, "BR":0, "T":1, "H":0},
+        "p": {"R":0, "BR":1, "T":1, "H":1},
+        "w": {"R":0, "BR":0, "T":1, "H":0},
+        "b": {"R":0, "BR":1, "T":0, "H":1},
+        "g": {"R":0, "BR":0, "T":0, "H":1},
+    })
+131.235289812088
+131.36222791671753
+130.29907274246216
+133.97665810585022
+
+

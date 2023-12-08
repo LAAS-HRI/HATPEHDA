@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+
+<sol>
+    <domain_name>blabl</domain_name>
+
+    <initial_state>
+        <var1>1</var1>
+        <var2>henry</var2>
+    </initial_state>
+
+    <begin_step>
+        <id>0</id>
+        <pair>
+            <HA_id>-1</HA_id>
+            <HA>PASSIVE['BEGIN']</HA>
+            <RA_id>-2</RA_id>
+            <RA>PASSIVE['BEGIN']</RA>
+            <step>
+                <id>1</id>
+                <pair>
+                    <HA_id>1</HA_id>
+                    <HA>pick('r1')</HA>
+                    <RA_id>2</RA_id>
+                    <RA>place('l1', 'r1')</RA>
+                    <best_rank>-1</best_rank>
+                    <step>
+                        <id>2</id>
+                        <pair>
+                            <HA_id>1</HA_id>
+                            <HA>PASSIVE['IDLE']</HA>
+                            <RA_id>2</RA_id>
+                            <RA>PASSIVE['IDLE']</RA>
+                            <metrics>6-6-6-10-1</metrics>
+                        </pair>
+                    </step>
+                </pair>
+                <pair>
+                    <HA_id>3</HA_id>
+                    <HA>pick('o1')</HA>
+                    <RA_id>4</RA_id>
+                    <RA>place('l2', 'o2')</RA>
+                    <best_rank>-1</best_rank>
+                    <step>
+                        <id>3</id>
+                        <pair>
+                            <HA_id>1</HA_id>
+                            <HA>PASSIVE['IDLE']</HA>
+                            <RA_id>2</RA_id>
+                            <RA>PASSIVE['IDLE']</RA>
+                            <metrics>7-7-7-10-1</metrics>
+                        </pair>
+                    </step>
+                </pair>
+            </step>
+        </pair>
+    </begin_step>
+
+</sol>
