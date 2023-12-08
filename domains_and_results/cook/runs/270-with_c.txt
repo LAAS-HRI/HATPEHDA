@@ -1,0 +1,1288 @@
+RUN N=270 With=True
+INITIAL STATES
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-cook()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-2-HA-cook()
+|------------------------------------------------------------------------
+| STATE robot =
+|| robot_init.at_robot = room 	ObsType.OBS 	loc=room
+|| robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+|| robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+|| robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+|| robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+|| robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+|| human_init.at_robot = room
+|| human_init.at_human = kitchen
+|| human_init.at_pasta = room
+|| human_init.salt_added = True
+|| human_init.pot_fire = on
+|| human_init.counter_clean = False
+|________________________________________________________________________
+Start first exploration
+SA: human assessed at_pasta <- kitchen
+SA: human assessed pot_fire <- off
+first node = 0.0 Flag.E Type.I#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[]
+
+<@> picked node = 0.0 Flag.E Type.I#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-cook()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-2-HA-cook()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = room 	ObsType.OBS 	loc=room
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = room
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 0-RA-cook()
+decomp i= 0 : origin
+	multiple decs for 0-RA-cook():  dec_cook_R_1  dec_cook_R_2 
+	0-RA-cook() => [4-RA-come_add_salt() - 5-RA-come_turn_on_pot_fire()] : dec_cook_R_1
+		decomposition 1 : dec_cook_R_2 created : [6-RA-come_turn_on_pot_fire(), 7-RA-come_add_salt()]
+	4-RA-come_add_salt() => [8-RP-move('kitchen',)-0.0 - 9-RP-add_salt()-0.0] : dec_come_add_salt_far
+	end 0
+decomp i= 1 : dec_cook_R_2
+	6-RA-come_turn_on_pot_fire() => [10-RP-move('kitchen',)-0.0 - 11-RP-turn_on_pot_fire()-0.0] : dec_come_turn_pot_fire_on_far
+	end 1
+refinement = 
+[
+	dec_cook_R_1: [8-RP-move('kitchen',)-0.0 - 9-RP-add_salt()-0.0 - 5-RA-come_turn_on_pot_fire()]
+	dec_cook_R_2: [10-RP-move('kitchen',)-0.0 - 11-RP-turn_on_pot_fire()-0.0 - 7-RA-come_add_salt()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 12-RP-move('kitchen',)-1.0
+	- 13-RP-move('kitchen',)-1.0
+
+=> end explo
+node explored = 0.0 Flag.F Type.R#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[#2 #3]
+new_e_flagged_nodes : 
+	1.0 Flag.E Type.I#2, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+	1.0 Flag.E Type.I#3, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+e_flagged_nodes :
+	1.0 Flag.E Type.I#2, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+	1.0 Flag.E Type.I#3, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+Ns before check = None
+Nf = None
+Ns after check = None
+e_flagged_nodes after check solution:
+	1.0 Flag.E Type.I#2, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+	1.0 Flag.E Type.I#3, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+
+<@> picked node = 1.0 Flag.E Type.I#2, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-9-RP-add_salt()-0.0
+||	-5-RA-come_turn_on_pot_fire()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-2-HA-cook()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_1
+	2-HA-cook() => [14-HA-get_pasta() - 15-HA-come_pour_pasta()] : dec_cook_H_1
+	14-HA-get_pasta() => [16-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_1
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [17-HA-get_pasta() - 18-HA-come_add_salt() - 19-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [20-HP-add_salt()-0.0, 21-HA-get_pasta(), 22-HA-come_pour_pasta()]
+	17-HA-get_pasta() => [23-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+Different number of decomposition
+NEED of belief alignment!
+
+# UPDATE belief divergences
+	salt_added:None: H=True R=False
+
+Testing with 1 relevant divergence
+divergence tested = salt_added:None: H=True R=False
+Task to refine: 2-HA-cook()
+decomp i= 0 : 
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [24-HA-get_pasta() - 25-HA-come_add_salt() - 26-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [27-HP-add_salt()-0.0, 28-HA-get_pasta(), 29-HA-come_pour_pasta()]
+	24-HA-get_pasta() => [30-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+	divergence is relevant!
+Relevant divergences to correct : 	salt_added:None: H=True R=False
+
+COM: com action added = 31-RP-COM_ALIGN['salt_added-False']-3.0
+human- Refine agenda
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_1
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [32-HA-get_pasta() - 33-HA-come_add_salt() - 34-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [35-HP-add_salt()-0.0, 36-HA-get_pasta(), 37-HA-come_pour_pasta()]
+	32-HA-get_pasta() => [38-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+human- Refine agenda with r_beliefs
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_1
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [39-HA-get_pasta() - 40-HA-come_add_salt() - 41-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [42-HP-add_salt()-0.0, 43-HA-get_pasta(), 44-HA-come_pour_pasta()]
+	39-HA-get_pasta() => [45-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [38-HP-grab_pasta()-0.0 - 33-HA-come_add_salt() - 34-HA-come_pour_pasta()]
+	dec_cook_H_2: [35-HP-add_salt()-0.0 - 36-HA-get_pasta() - 37-HA-come_pour_pasta()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 46-HP-grab_pasta()-1.0
+	- 47-HP-add_salt()-1.0
+
+=> end explo
+node explored = 1.0 Flag.F Type.H#2, (robot move ('kitchen',)) -1> (robot COM_ALIGN ['salt_added-False']) prev=#1 next=[#4 #5]
+new_e_flagged_nodes : 
+	2.0 Flag.E Type.I#4, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+e_flagged_nodes :
+	1.0 Flag.E Type.I#3, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+	2.0 Flag.E Type.I#4, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+Ns before check = None
+Nf = None
+Ns after check = None
+e_flagged_nodes after check solution:
+	1.0 Flag.E Type.I#3, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+	2.0 Flag.E Type.I#4, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+
+<@> picked node = 1.0 Flag.E Type.I#3, (robot move ('kitchen',)) -1> (robot move ('kitchen',)) prev=#1 next=[]
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-11-RP-turn_on_pot_fire()-0.0
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-2-HA-cook()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_2
+	2-HA-cook() => [48-HA-get_pasta() - 49-HA-come_pour_pasta()] : dec_cook_H_1
+	48-HA-get_pasta() => [50-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_2
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [51-HA-get_pasta() - 52-HA-come_add_salt() - 53-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [54-HP-add_salt()-0.0, 55-HA-get_pasta(), 56-HA-come_pour_pasta()]
+	51-HA-get_pasta() => [57-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+Different number of decomposition
+NEED of belief alignment!
+
+# UPDATE belief divergences
+	salt_added:None: H=True R=False
+
+Testing with 1 relevant divergence
+divergence tested = salt_added:None: H=True R=False
+Task to refine: 2-HA-cook()
+decomp i= 0 : 
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [58-HA-get_pasta() - 59-HA-come_add_salt() - 60-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [61-HP-add_salt()-0.0, 62-HA-get_pasta(), 63-HA-come_pour_pasta()]
+	58-HA-get_pasta() => [64-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+	divergence is relevant!
+Relevant divergences to correct : 	salt_added:None: H=True R=False
+
+COM: com action added = 65-RP-COM_ALIGN['salt_added-False']-3.0
+human- Refine agenda
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_2
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [66-HA-get_pasta() - 67-HA-come_add_salt() - 68-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [69-HP-add_salt()-0.0, 70-HA-get_pasta(), 71-HA-come_pour_pasta()]
+	66-HA-get_pasta() => [72-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+human- Refine agenda with r_beliefs
+Task to refine: 2-HA-cook()
+decomp i= 0 : dec_cook_R_2
+	multiple decs for 2-HA-cook():  dec_cook_H_1  dec_cook_H_2 
+	2-HA-cook() => [73-HA-get_pasta() - 74-HA-come_add_salt() - 75-HA-come_pour_pasta()] : dec_cook_H_1
+		decomposition 1 : dec_cook_H_2 created : [76-HP-add_salt()-0.0, 77-HA-get_pasta(), 78-HA-come_pour_pasta()]
+	73-HA-get_pasta() => [79-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+decomp i= 1 : dec_cook_H_2
+	end 1
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [72-HP-grab_pasta()-0.0 - 67-HA-come_add_salt() - 68-HA-come_pour_pasta()]
+	dec_cook_H_2: [69-HP-add_salt()-0.0 - 70-HA-get_pasta() - 71-HA-come_pour_pasta()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 80-HP-grab_pasta()-1.0
+	- 81-HP-add_salt()-1.0
+
+=> end explo
+node explored = 1.0 Flag.F Type.H#3, (robot move ('kitchen',)) -1> (robot COM_ALIGN ['salt_added-False']) prev=#1 next=[#6 #7]
+new_e_flagged_nodes : 
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+e_flagged_nodes :
+	2.0 Flag.E Type.I#4, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+Ns before check = None
+Nf = None
+Ns after check = None
+e_flagged_nodes after check solution:
+	2.0 Flag.E Type.I#4, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+
+<@> picked node = 2.0 Flag.E Type.I#4, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#2 next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-9-RP-add_salt()-0.0
+||	-5-RA-come_turn_on_pot_fire()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-33-HA-come_add_salt()
+||	-34-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = False
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 9-RP-add_salt()-0.0
+decomp i= 0 : dec_cook_H_1
+	end 0
+refinement = 
+[
+	dec_cook_H_1: [9-RP-add_salt()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 82-RP-add_salt()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-5-RA-come_turn_on_pot_fire()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-33-HA-come_add_salt()
+||	-34-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 33-HA-come_add_salt()
+decomp i= 0 : dec_cook_H_1
+	33-HA-come_add_salt() => [83-HP-add_salt()-0.0] : dec_come_add_salt_close
+	83-HP-add_salt()-0.0 => [83-HP-add_salt()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 34-HA-come_pour_pasta()
+	34-HA-come_pour_pasta() => [84-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 33-HA-come_add_salt()
+decomp i= 0 : dec_cook_H_1
+	33-HA-come_add_salt() => [85-HP-add_salt()-0.0] : dec_come_add_salt_close
+	85-HP-add_salt()-0.0 => [85-HP-add_salt()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 34-HA-come_pour_pasta()
+	34-HA-come_pour_pasta() => [86-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+[93m84-HP-pour_pasta()-0.0 not applicable[0m
+[93m84-HP-pour_pasta()-0.0 not applicable[0m
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [84-HP-pour_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+[93m84-HP-pour_pasta()-0.0 not applicable[0m
+pour_pasta not feasible...
+applied refinement = 
+next actions:
+	- 87-HP-WAIT[]-2.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-5-RA-come_turn_on_pot_fire()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-84-HP-pour_pasta()-0.0
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 5-RA-come_turn_on_pot_fire()
+decomp i= 0 : dec_cook_H_1
+	5-RA-come_turn_on_pot_fire() => [88-RP-turn_on_pot_fire()-0.0] : dec_come_turn_pot_fire_on_close
+	end 0
+refinement = 
+[
+	dec_cook_H_1: [88-RP-turn_on_pot_fire()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 89-RP-turn_on_pot_fire()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-84-HP-pour_pasta()-0.0
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 84-HP-pour_pasta()-0.0
+decomp i= 0 : dec_cook_H_1
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 84-HP-pour_pasta()-0.0
+decomp i= 0 : dec_cook_H_1
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [84-HP-pour_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 90-HP-pour_pasta()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 1-RA-come_clean_counter()
+decomp i= 0 : dec_cook_H_1
+	1-RA-come_clean_counter() => [91-RP-clean_counter()-0.0] : dec_come_clean_close
+	end 0
+refinement = 
+[
+	dec_cook_H_1: [91-RP-clean_counter()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 92-RP-clean_counter()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+human- Refine agenda
+human- Refine agenda with r_beliefs
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [DecompType.BOTH_AGENDAS_EMPTY]
+]
+BOTH_AGENDAS_EMPTY
+applied refinement = 
+next actions:
+
+=> end explo
+node explored = 8.0 Flag.E Type.F#4, (human grab_pasta ()) -6> (robot clean_counter ()) prev=#2 next=[]
+new_e_flagged_nodes : 
+	8.0 Flag.E Type.F#4, (human grab_pasta ()) -6> (robot clean_counter ()) prev=#2 next=[]
+e_flagged_nodes :
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+	8.0 Flag.E Type.F#4, (human grab_pasta ()) -6> (robot clean_counter ()) prev=#2 next=[]
+Ns before check = None
+Nf = 8.0 Flag.E Type.F#4, (human grab_pasta ()) -6> (robot clean_counter ()) prev=#2 next=[]
+new Ns!
+Ns after check = 8.0 Flag.S Type.F#4, (human grab_pasta ()) -6> (robot clean_counter ()) prev=#2 next=[]
+e_flagged_nodes after check solution:
+	2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+
+<@> picked node = 2.0 Flag.E Type.I#5, (human add_salt ()) -1> (human add_salt ()) prev=#2 next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-9-RP-add_salt()-0.0
+||	-5-RA-come_turn_on_pot_fire()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-36-HA-get_pasta()
+||	-37-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 9-RP-add_salt()-0.0
+decomp i= 0 : dec_cook_H_2
+	9-RP-add_salt()-0.0 => [9-RP-add_salt()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 5-RA-come_turn_on_pot_fire()
+	5-RA-come_turn_on_pot_fire() => [93-RP-turn_on_pot_fire()-0.0] : dec_come_turn_pot_fire_on_close
+	end 0
+refinement = 
+[
+	dec_cook_H_2: [93-RP-turn_on_pot_fire()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 94-RP-turn_on_pot_fire()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-36-HA-get_pasta()
+||	-37-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 36-HA-get_pasta()
+decomp i= 0 : dec_cook_H_2
+	36-HA-get_pasta() => [95-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 36-HA-get_pasta()
+decomp i= 0 : dec_cook_H_2
+	36-HA-get_pasta() => [96-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_2: [95-HP-grab_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 97-HP-grab_pasta()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-37-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 1-RA-come_clean_counter()
+decomp i= 0 : dec_cook_H_2
+	1-RA-come_clean_counter() => [98-RP-clean_counter()-0.0] : dec_come_clean_close
+	end 0
+refinement = 
+[
+	dec_cook_H_2: [98-RP-clean_counter()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 99-RP-clean_counter()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+||	-37-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 37-HA-come_pour_pasta()
+decomp i= 0 : dec_cook_H_2
+	37-HA-come_pour_pasta() => [100-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 37-HA-come_pour_pasta()
+decomp i= 0 : dec_cook_H_2
+	37-HA-come_pour_pasta() => [101-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_2: [100-HP-pour_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 102-HP-pour_pasta()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+robot- Refine agenda
+refinement = 
+[
+	dec_cook_H_2: [DecompType.BOTH_AGENDAS_EMPTY]
+]
+BOTH_AGENDAS_EMPTY
+applied refinement = 
+next actions:
+
+=> end explo
+node explored = 6.0 Flag.E Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+new_e_flagged_nodes : 
+	6.0 Flag.E Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+e_flagged_nodes :
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+	6.0 Flag.E Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+Ns before check = 8.0 Flag.S Type.F#4, (human grab_pasta ()) -6> (robot clean_counter ()) prev=#2 next=[]
+Nf = 6.0 Flag.E Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+new Ns!
+Ns after check = 6.0 Flag.S Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+e_flagged_nodes after check solution:
+	2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+
+<@> picked node = 2.0 Flag.E Type.I#6, (human grab_pasta ()) -1> (human grab_pasta ()) prev=#3 next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-11-RP-turn_on_pot_fire()-0.0
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-67-HA-come_add_salt()
+||	-68-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = False
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 11-RP-turn_on_pot_fire()-0.0
+decomp i= 0 : dec_cook_H_1
+	end 0
+refinement = 
+[
+	dec_cook_H_1: [11-RP-turn_on_pot_fire()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 103-RP-turn_on_pot_fire()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-67-HA-come_add_salt()
+||	-68-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = False 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = False
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 67-HA-come_add_salt()
+decomp i= 0 : dec_cook_H_1
+	67-HA-come_add_salt() => [104-HP-add_salt()-0.0] : dec_come_add_salt_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 67-HA-come_add_salt()
+decomp i= 0 : dec_cook_H_1
+	67-HA-come_add_salt() => [105-HP-add_salt()-0.0] : dec_come_add_salt_close
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [104-HP-add_salt()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 106-HP-add_salt()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-68-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 7-RA-come_add_salt()
+decomp i= 0 : dec_cook_H_1
+	7-RA-come_add_salt() => [107-RP-add_salt()-0.0] : dec_come_add_salt_close
+	107-RP-add_salt()-0.0 => [107-RP-add_salt()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 1-RA-come_clean_counter()
+	1-RA-come_clean_counter() => [108-RP-clean_counter()-0.0] : dec_come_clean_close
+	end 0
+refinement = 
+[
+	dec_cook_H_1: [108-RP-clean_counter()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 109-RP-clean_counter()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+||	-68-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 68-HA-come_pour_pasta()
+decomp i= 0 : dec_cook_H_1
+	68-HA-come_pour_pasta() => [110-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 68-HA-come_pour_pasta()
+decomp i= 0 : dec_cook_H_1
+	68-HA-come_pour_pasta() => [111-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_1: [110-HP-pour_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 112-HP-pour_pasta()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+robot- Refine agenda
+refinement = 
+[
+	dec_cook_H_1: [DecompType.BOTH_AGENDAS_EMPTY]
+]
+BOTH_AGENDAS_EMPTY
+applied refinement = 
+next actions:
+
+=> end explo
+node explored = 6.0 Flag.E Type.F#6, (human grab_pasta ()) -5> (human pour_pasta ()) prev=#3 next=[]
+new_e_flagged_nodes : 
+	6.0 Flag.E Type.F#6, (human grab_pasta ()) -5> (human pour_pasta ()) prev=#3 next=[]
+e_flagged_nodes :
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+	6.0 Flag.E Type.F#6, (human grab_pasta ()) -5> (human pour_pasta ()) prev=#3 next=[]
+Ns before check = 6.0 Flag.S Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+Nf = 6.0 Flag.E Type.F#6, (human grab_pasta ()) -5> (human pour_pasta ()) prev=#3 next=[]
+Ns after check = 6.0 Flag.S Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+e_flagged_nodes after check solution:
+	2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+
+<@> picked node = 2.0 Flag.E Type.I#7, (human add_salt ()) -1> (human add_salt ()) prev=#3 next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-11-RP-turn_on_pot_fire()-0.0
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-70-HA-get_pasta()
+||	-71-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = off 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = off
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 11-RP-turn_on_pot_fire()-0.0
+decomp i= 0 : dec_cook_H_2
+	end 0
+refinement = 
+[
+	dec_cook_H_2: [11-RP-turn_on_pot_fire()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 113-RP-turn_on_pot_fire()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-70-HA-get_pasta()
+||	-71-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 70-HA-get_pasta()
+decomp i= 0 : dec_cook_H_2
+	70-HA-get_pasta() => [114-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 70-HA-get_pasta()
+decomp i= 0 : dec_cook_H_2
+	70-HA-get_pasta() => [115-HP-grab_pasta()-0.0] : dec_get_pasta_close
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_2: [114-HP-grab_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 116-HP-grab_pasta()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-7-RA-come_add_salt()
+||	-1-RA-come_clean_counter()
+| AGENDA human =
+||	-71-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = False 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 7-RA-come_add_salt()
+decomp i= 0 : dec_cook_H_2
+	7-RA-come_add_salt() => [117-RP-add_salt()-0.0] : dec_come_add_salt_close
+	117-RP-add_salt()-0.0 => [117-RP-add_salt()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 1-RA-come_clean_counter()
+	1-RA-come_clean_counter() => [118-RP-clean_counter()-0.0] : dec_come_clean_close
+	end 0
+refinement = 
+[
+	dec_cook_H_2: [118-RP-clean_counter()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 119-RP-clean_counter()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+||	-71-HA-come_pour_pasta()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = human 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = human
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 71-HA-come_pour_pasta()
+decomp i= 0 : dec_cook_H_2
+	71-HA-come_pour_pasta() => [120-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 71-HA-come_pour_pasta()
+decomp i= 0 : dec_cook_H_2
+	71-HA-come_pour_pasta() => [121-HP-pour_pasta()-0.0] : dec_come_pour_pasta_close
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	dec_cook_H_2: [120-HP-pour_pasta()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 122-HP-pour_pasta()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_human = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.at_pasta = kitchen 	ObsType.OBS 	loc=kitchen
+||robot_init.salt_added = True 	ObsType.INF 	loc=kitchen
+||robot_init.pot_fire = on 	ObsType.OBS 	loc=kitchen
+||robot_init.counter_clean = True 	ObsType.INF 	loc=kichen
+| STATE human =
+||human_init.at_robot = kitchen
+||human_init.at_human = kitchen
+||human_init.at_pasta = kitchen
+||human_init.salt_added = True
+||human_init.pot_fire = on
+||human_init.counter_clean = True
+|________________________________________________________________________
+robot- Refine agenda
+refinement = 
+[
+	dec_cook_H_2: [DecompType.BOTH_AGENDAS_EMPTY]
+]
+BOTH_AGENDAS_EMPTY
+applied refinement = 
+next actions:
+
+=> end explo
+node explored = 6.0 Flag.E Type.F#7, (human add_salt ()) -5> (human pour_pasta ()) prev=#3 next=[]
+new_e_flagged_nodes : 
+	6.0 Flag.E Type.F#7, (human add_salt ()) -5> (human pour_pasta ()) prev=#3 next=[]
+e_flagged_nodes :
+	6.0 Flag.E Type.F#7, (human add_salt ()) -5> (human pour_pasta ()) prev=#3 next=[]
+Ns before check = 6.0 Flag.S Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+Nf = 6.0 Flag.E Type.F#7, (human add_salt ()) -5> (human pour_pasta ()) prev=#3 next=[]
+Ns after check = 6.0 Flag.S Type.F#5, (human add_salt ()) -5> (human pour_pasta ()) prev=#2 next=[]
+e_flagged_nodes after check solution:
+	=> time spent first exploration = 112ms
+Start refining u nodes
+	=> time spent refining = 0ms
+Total duration = 112ms
+Non relevant div:
+False
+Plans:
+12-RP-move('kitchen',)-1.0 31-RP-COM_ALIGN['salt_added-False']-3.0 46-HP-grab_pasta()-1.0 82-RP-add_salt()-1.0 87-HP-WAIT[]-2.0 89-RP-turn_on_pot_fire()-1.0 90-HP-pour_pasta()-1.0 92-RP-clean_counter()-1.0/12-RP-move('kitchen',)-1.0 31-RP-COM_ALIGN['salt_added-False']-3.0 47-HP-add_salt()-1.0 94-RP-turn_on_pot_fire()-1.0 97-HP-grab_pasta()-1.0 99-RP-clean_counter()-1.0 102-HP-pour_pasta()-1.0/13-RP-move('kitchen',)-1.0 65-RP-COM_ALIGN['salt_added-False']-3.0 80-HP-grab_pasta()-1.0 103-RP-turn_on_pot_fire()-1.0 106-HP-add_salt()-1.0 109-RP-clean_counter()-1.0 112-HP-pour_pasta()-1.0/13-RP-move('kitchen',)-1.0 65-RP-COM_ALIGN['salt_added-False']-3.0 81-HP-add_salt()-1.0 113-RP-turn_on_pot_fire()-1.0 116-HP-grab_pasta()-1.0 119-RP-clean_counter()-1.0 122-HP-pour_pasta()-1.0
+best_traces:
+[112-HP-pour_pasta()-1.0, 122-HP-pour_pasta()-1.0]
+best_metrics:
+(1.0, 0.0, 6.0, 0.0)

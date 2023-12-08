@@ -1,0 +1,315 @@
+RUN N=346 With=True
+INITIAL STATES
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-Car_maintenance()
+| AGENDA human =
+||	-1-HA-Car_maintenance()
+|------------------------------------------------------------------------
+| STATE robot =
+|| robot_init.at_robot = front 	ObsType.OBS 	loc=front
+|| robot_init.at_human = front 	ObsType.OBS 	loc=front
+|| robot_init.at_oil_bottle = front 	ObsType.INF 	loc=front
+|| robot_init.washer = full 	ObsType.OBS 	loc=front
+|| robot_init.oil = low 	ObsType.INF 	loc=front
+|| robot_init.hood = open 	ObsType.OBS 	loc=front
+|| robot_init.rear_light = new 	ObsType.INF 	loc=rear
+|| robot_init.left_light = todo 	ObsType.INF 	loc=front
+|| robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+|| human_init.at_robot = front
+|| human_init.at_human = front
+|| human_init.at_oil_bottle = front
+|| human_init.washer = full
+|| human_init.oil = low
+|| human_init.hood = open
+|| human_init.rear_light = new
+|| human_init.left_light = todo
+|| human_init.right_light = ok
+|________________________________________________________________________
+Start first exploration
+first node = 0.0 Flag.E Type.I#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[]
+
+<@> picked node = 0.0 Flag.E Type.I#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-Car_maintenance()
+| AGENDA human =
+||	-1-HA-Car_maintenance()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = front 	ObsType.OBS 	loc=front
+||robot_init.at_human = front 	ObsType.OBS 	loc=front
+||robot_init.at_oil_bottle = front 	ObsType.INF 	loc=front
+||robot_init.washer = full 	ObsType.OBS 	loc=front
+||robot_init.oil = low 	ObsType.INF 	loc=front
+||robot_init.hood = open 	ObsType.OBS 	loc=front
+||robot_init.rear_light = new 	ObsType.INF 	loc=rear
+||robot_init.left_light = todo 	ObsType.INF 	loc=front
+||robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+||human_init.at_robot = front
+||human_init.at_human = front
+||human_init.at_oil_bottle = front
+||human_init.washer = full
+||human_init.oil = low
+||human_init.hood = open
+||human_init.rear_light = new
+||human_init.left_light = todo
+||human_init.right_light = ok
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 0-RA-Car_maintenance()
+decomp i= 0 : origin
+	0-RA-Car_maintenance() => [3-RP-go_front_car()-0.0 - 4-RP-refill_washer()-0.0 - 5-RP-refill_oil()-0.0 - 6-RP-store_oil()-0.0] : dec_car_maintenance_R
+	3-RP-go_front_car()-0.0 => [3-RP-go_front_car()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[4-RP-refill_washer()-0.0, 5-RP-refill_oil()-0.0, 6-RP-store_oil()-0.0]
+	4-RP-refill_washer()-0.0 => [4-RP-refill_washer()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[5-RP-refill_oil()-0.0, 6-RP-store_oil()-0.0]
+	end 0
+refinement = 
+[
+	origin: [5-RP-refill_oil()-0.0 - 6-RP-store_oil()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 7-RP-refill_oil()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-6-RP-store_oil()-0.0
+| AGENDA human =
+||	-1-HA-Car_maintenance()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = front 	ObsType.OBS 	loc=front
+||robot_init.at_human = front 	ObsType.OBS 	loc=front
+||robot_init.at_oil_bottle = front 	ObsType.INF 	loc=front
+||robot_init.washer = full 	ObsType.OBS 	loc=front
+||robot_init.oil = full 	ObsType.INF 	loc=front
+||robot_init.hood = open 	ObsType.OBS 	loc=front
+||robot_init.rear_light = new 	ObsType.INF 	loc=rear
+||robot_init.left_light = todo 	ObsType.INF 	loc=front
+||robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+||human_init.at_robot = front
+||human_init.at_human = front
+||human_init.at_oil_bottle = front
+||human_init.washer = full
+||human_init.oil = full
+||human_init.hood = open
+||human_init.rear_light = new
+||human_init.left_light = todo
+||human_init.right_light = ok
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 1-HA-Car_maintenance()
+decomp i= 0 : origin
+	1-HA-Car_maintenance() => [8-HA-Handling_lights() - 9-HA-Closing_hood()] : dec_car_maintenance_H
+	8-HA-Handling_lights() => [10-HA-Checking_front_lights()] : dec_handling_lights_start_replace
+	10-HA-Checking_front_lights() => [11-HP-go_front_car()-0.0 - 12-HP-check_left_light()-0.0 - 13-HP-check_right_light()-0.0] : dec_checking_front_ligths
+	11-HP-go_front_car()-0.0 => [11-HP-go_front_car()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[12-HP-check_left_light()-0.0, 13-HP-check_right_light()-0.0, 9-HA-Closing_hood()]
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 1-HA-Car_maintenance()
+decomp i= 0 : origin
+	1-HA-Car_maintenance() => [14-HA-Handling_lights() - 15-HA-Closing_hood()] : dec_car_maintenance_H
+	14-HA-Handling_lights() => [16-HA-Checking_front_lights()] : dec_handling_lights_start_replace
+	16-HA-Checking_front_lights() => [17-HP-go_front_car()-0.0 - 18-HP-check_left_light()-0.0 - 19-HP-check_right_light()-0.0] : dec_checking_front_ligths
+	17-HP-go_front_car()-0.0 => [17-HP-go_front_car()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[18-HP-check_left_light()-0.0, 19-HP-check_right_light()-0.0, 15-HA-Closing_hood()]
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	origin: [12-HP-check_left_light()-0.0 - 13-HP-check_right_light()-0.0 - 9-HA-Closing_hood()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 20-HP-check_left_light()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-6-RP-store_oil()-0.0
+| AGENDA human =
+||	-13-HP-check_right_light()-0.0
+||	-9-HA-Closing_hood()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = front 	ObsType.OBS 	loc=front
+||robot_init.at_human = front 	ObsType.OBS 	loc=front
+||robot_init.at_oil_bottle = front 	ObsType.INF 	loc=front
+||robot_init.washer = full 	ObsType.OBS 	loc=front
+||robot_init.oil = full 	ObsType.INF 	loc=front
+||robot_init.hood = open 	ObsType.OBS 	loc=front
+||robot_init.rear_light = new 	ObsType.INF 	loc=rear
+||robot_init.left_light = ok 	ObsType.INF 	loc=front
+||robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+||human_init.at_robot = front
+||human_init.at_human = front
+||human_init.at_oil_bottle = front
+||human_init.washer = full
+||human_init.oil = full
+||human_init.hood = open
+||human_init.rear_light = new
+||human_init.left_light = ok
+||human_init.right_light = ok
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 6-RP-store_oil()-0.0
+decomp i= 0 : origin
+	end 0
+refinement = 
+[
+	origin: [6-RP-store_oil()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 21-RP-store_oil()-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+||	-13-HP-check_right_light()-0.0
+||	-9-HA-Closing_hood()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = front 	ObsType.OBS 	loc=front
+||robot_init.at_human = front 	ObsType.OBS 	loc=front
+||robot_init.at_oil_bottle = cabinet 	ObsType.INF 	loc=cabinet
+||robot_init.washer = full 	ObsType.OBS 	loc=front
+||robot_init.oil = full 	ObsType.INF 	loc=front
+||robot_init.hood = open 	ObsType.OBS 	loc=front
+||robot_init.rear_light = new 	ObsType.INF 	loc=rear
+||robot_init.left_light = ok 	ObsType.INF 	loc=front
+||robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+||human_init.at_robot = front
+||human_init.at_human = front
+||human_init.at_oil_bottle = cabinet
+||human_init.washer = full
+||human_init.oil = full
+||human_init.hood = open
+||human_init.rear_light = new
+||human_init.left_light = ok
+||human_init.right_light = ok
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 13-HP-check_right_light()-0.0
+decomp i= 0 : origin
+	13-HP-check_right_light()-0.0 => [13-HP-check_right_light()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 9-HA-Closing_hood()
+	9-HA-Closing_hood() => [22-HP-go_front_car()-0.0 - 23-HP-close_hood()-0.0] : dec_closing_hood
+	22-HP-go_front_car()-0.0 => [22-HP-go_front_car()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[23-HP-close_hood()-0.0]
+	end 0
+human- Refine agenda with r_beliefs
+Task to refine: 13-HP-check_right_light()-0.0
+decomp i= 0 : origin
+	13-HP-check_right_light()-0.0 => [13-HP-check_right_light()-0.0] : 
+[92m	already done[0m
+	continue with next_task popped from agenda 9-HA-Closing_hood()
+	9-HA-Closing_hood() => [24-HP-go_front_car()-0.0 - 25-HP-close_hood()-0.0] : dec_closing_hood
+	24-HP-go_front_car()-0.0 => [24-HP-go_front_car()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[25-HP-close_hood()-0.0]
+	end 0
+No relevant belief divergence for refinement
+refinement = 
+[
+	origin: [23-HP-close_hood()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 26-HP-close_hood()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+| AGENDA human =
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = front 	ObsType.OBS 	loc=front
+||robot_init.at_human = front 	ObsType.OBS 	loc=front
+||robot_init.at_oil_bottle = cabinet 	ObsType.INF 	loc=cabinet
+||robot_init.washer = full 	ObsType.OBS 	loc=front
+||robot_init.oil = full 	ObsType.INF 	loc=front
+||robot_init.hood = closed 	ObsType.OBS 	loc=front
+||robot_init.rear_light = new 	ObsType.INF 	loc=rear
+||robot_init.left_light = ok 	ObsType.INF 	loc=front
+||robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+||human_init.at_robot = front
+||human_init.at_human = front
+||human_init.at_oil_bottle = cabinet
+||human_init.washer = full
+||human_init.oil = full
+||human_init.hood = closed
+||human_init.rear_light = new
+||human_init.left_light = ok
+||human_init.right_light = ok
+|________________________________________________________________________
+robot- Refine agenda
+refinement = 
+[
+	origin: [DecompType.BOTH_AGENDAS_EMPTY]
+]
+BOTH_AGENDAS_EMPTY
+applied refinement = 
+next actions:
+
+=> end explo
+node explored = 4.0 Flag.E Type.F#1, (human BEGIN []) -5> (human close_hood ()) prev=None next=[]
+new_e_flagged_nodes : 
+	4.0 Flag.E Type.F#1, (human BEGIN []) -5> (human close_hood ()) prev=None next=[]
+e_flagged_nodes :
+	4.0 Flag.E Type.F#1, (human BEGIN []) -5> (human close_hood ()) prev=None next=[]
+Ns before check = None
+Nf = 4.0 Flag.E Type.F#1, (human BEGIN []) -5> (human close_hood ()) prev=None next=[]
+new Ns!
+Ns after check = 4.0 Flag.S Type.F#1, (human BEGIN []) -5> (human close_hood ()) prev=None next=[]
+e_flagged_nodes after check solution:
+	=> time spent first exploration = 17ms
+Start refining u nodes
+	=> time spent refining = 0ms
+Total duration = 17ms
+Non relevant div:
+False
+Plans:
+7-RP-refill_oil()-1.0 20-HP-check_left_light()-1.0 21-RP-store_oil()-1.0 26-HP-close_hood()-1.0
+best_traces:
+[26-HP-close_hood()-1.0]
+best_metrics:
+(0, 0, 4, 0)

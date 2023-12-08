@@ -1,0 +1,14 @@
+<package format="2">
+  <name>hatpehda</name>
+  <version>1.0.0</version>
+  <description>
+    hatpehda dual HTN planner
+  </description>
+  <maintainer email="buisanguilhem@gmail.com">Guilhem Buisan</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+</package>
