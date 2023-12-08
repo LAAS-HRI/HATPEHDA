@@ -1,0 +1,439 @@
+RUN N=321 With=False
+NB_BALL= 2
+INITIAL STATES
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-task()
+| AGENDA human =
+||	-1-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+|| robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+|| robot_init.at_human = place1 	ObsType.OBS 	loc=place1
+|| robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+|| robot_init.nb_bucket = 2 	ObsType.OBS 	loc=place1
+|| robot_init.nb_box1 = 1 	ObsType.INF 	loc=place1
+|| robot_init.nb_box2 = 0 	ObsType.INF 	loc=place1
+|| robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+|| robot_init.stick_box1 = False 	ObsType.OBS 	loc=place1
+|| robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+|| robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+|| robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+|| robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+|| robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+|| human_init.at_robot = place1
+|| human_init.at_human = place1
+|| human_init.at_bucket = place1
+|| human_init.nb_bucket = 2
+|| human_init.nb_box1 = 0
+|| human_init.nb_box2 = 0
+|| human_init.nb_box3 = 0
+|| human_init.stick_box1 = False
+|| human_init.stick_box2 = False
+|| human_init.stick_box3 = False
+|| human_init.box1_sent = False
+|| human_init.box2_sent = False
+|| human_init.box3_sent = False
+|________________________________________________________________________
+Start first exploration
+first node = 0.0 Flag.E Type.I#1, (robot BEGIN []) -1> (robot BEGIN []) prev=None next=[]
+
+<@> picked node = 0.0 Flag.E Type.I#1, (robot BEGIN []) -1> (robot BEGIN []) prev=None next=[]
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-task()
+| AGENDA human =
+||	-1-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 2 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 1 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 0 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place1
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 2
+||human_init.nb_box1 = 0
+||human_init.nb_box2 = 0
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = False
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 1-HA-task()
+decomp i= 0 : origin
+	1-HA-task() => [3-HA-prepare('box1',)] : dec_task_b1
+	3-HA-prepare('box1',) => [4-HP-add_ball('box1',)-0.0 - 5-HA-task()] : dec_H_missing_ball
+	end 0
+refinement = 
+[
+	origin: [4-HP-add_ball('box1',)-0.0 - 5-HA-task()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 6-HP-add_ball('box1',)-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-task()
+| AGENDA human =
+||	-5-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 1 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 0 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place1
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 1
+||human_init.nb_box1 = 1
+||human_init.nb_box2 = 0
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = False
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 0-RA-task()
+decomp i= 0 : origin
+	0-RA-task() => [7-RA-prepare('box1',)] : dec_task_b1
+s=True b=False b_r=True
+	7-RA-prepare('box1',) => [8-RP-add_sticker('box1',)-0.0 - 9-RA-task()] : dec_R_missing_sticker
+	end 0
+refinement = 
+[
+	origin: [8-RP-add_sticker('box1',)-0.0 - 9-RA-task()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 10-RP-add_sticker('box1',)-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-9-RA-task()
+| AGENDA human =
+||	-5-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 1 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 0 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = True 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place1
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 1
+||human_init.nb_box1 = 1
+||human_init.nb_box2 = 0
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = True
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 5-HA-task()
+decomp i= 0 : origin
+	5-HA-task() => [11-HA-prepare('box1',)] : dec_task_b1
+	11-HA-prepare('box1',) => [12-HP-get_more()-0.0 - 13-HP-back_refill()-0.0 - 14-HA-task()] : dec_H_need_refill
+	end 0
+refinement = 
+[
+	origin: [12-HP-get_more()-0.0 - 13-HP-back_refill()-0.0 - 14-HA-task()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 15-HP-get_more()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-9-RA-task()
+| AGENDA human =
+||	-13-HP-back_refill()-0.0
+||	-14-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place2 	ObsType.OBS 	loc=place2
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 1 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 0 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = True 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place2
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 1
+||human_init.nb_box1 = 1
+||human_init.nb_box2 = 0
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = True
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 9-RA-task()
+decomp i= 0 : origin
+	9-RA-task() => [16-RA-prepare('box1',)] : dec_task_b1
+s=False b=False b_r=True
+	16-RA-prepare('box1',) => [17-RA-prepare('box2',)] : dec_R_next_box
+s=True b=True b_r=True
+	17-RA-prepare('box2',) => [18-RP-add_ball('box2',)-0.0 - 19-RA-task()] : dec_R_missing_ball
+	end 0
+refinement = 
+[
+	origin: [18-RP-add_ball('box2',)-0.0 - 19-RA-task()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 20-RP-add_ball('box2',)-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-19-RA-task()
+| AGENDA human =
+||	-13-HP-back_refill()-0.0
+||	-14-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place2 	ObsType.OBS 	loc=place2
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 0 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 1 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = True 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place2
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 0
+||human_init.nb_box1 = 1
+||human_init.nb_box2 = 1
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = True
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 13-HP-back_refill()-0.0
+decomp i= 0 : origin
+	end 0
+refinement = 
+[
+	origin: [13-HP-back_refill()-0.0]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 21-HP-back_refill()-1.0
+
+continue ..
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-19-RA-task()
+| AGENDA human =
+||	-14-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 10 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 1 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = True 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place1
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 10
+||human_init.nb_box1 = 1
+||human_init.nb_box2 = 1
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = True
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 19-RA-task()
+decomp i= 0 : origin
+	19-RA-task() => [22-RA-prepare('box1',)] : dec_task_b1
+s=False b=False b_r=True
+	22-RA-prepare('box1',) => [23-RA-prepare('box2',)] : dec_R_next_box
+s=True b=True b_r=True
+	23-RA-prepare('box2',) => [24-RP-add_ball('box2',)-0.0 - 25-RA-task()] : dec_R_missing_ball
+	end 0
+refinement = 
+[
+	origin: [24-RP-add_ball('box2',)-0.0 - 25-RA-task()]
+]
+Decomp OK
+apply acting agent
+applicable with other's beliefs
+Update other's beliefs
+applied refinement = 
+next actions:
+	- 26-RP-add_ball('box2',)-1.0
+
+continue ..
+=> H step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-25-RA-task()
+| AGENDA human =
+||	-14-HA-task()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_human = place1 	ObsType.OBS 	loc=place1
+||robot_init.at_bucket = place1 	ObsType.OBS 	loc=place1
+||robot_init.nb_bucket = 9 	ObsType.OBS 	loc=place1
+||robot_init.nb_box1 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box2 = 2 	ObsType.INF 	loc=place1
+||robot_init.nb_box3 = 0 	ObsType.INF 	loc=place1
+||robot_init.stick_box1 = True 	ObsType.OBS 	loc=place1
+||robot_init.stick_box2 = False 	ObsType.OBS 	loc=place1
+||robot_init.stick_box3 = False 	ObsType.OBS 	loc=place1
+||robot_init.box1_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box2_sent = False 	ObsType.OBS 	loc=place1
+||robot_init.box3_sent = False 	ObsType.OBS 	loc=place1
+| STATE human =
+||human_init.at_robot = place1
+||human_init.at_human = place1
+||human_init.at_bucket = place1
+||human_init.nb_bucket = 9
+||human_init.nb_box1 = 1
+||human_init.nb_box2 = 2
+||human_init.nb_box3 = 0
+||human_init.stick_box1 = True
+||human_init.stick_box2 = False
+||human_init.stick_box3 = False
+||human_init.box1_sent = False
+||human_init.box2_sent = False
+||human_init.box3_sent = False
+|________________________________________________________________________
+human- Refine agenda
+Task to refine: 14-HA-task()
+decomp i= 0 : origin
+	14-HA-task() => [27-HA-prepare('box1',)] : dec_task_b1
+	27-HA-prepare('box1',) => [28-HP-add_ball('box1',)-0.0 - 29-HA-task()] : dec_H_missing_ball
+	end 0
+refinement = 
+[
+	origin: [28-HP-add_ball('box1',)-0.0 - 29-HA-task()]
+]
+Decomp OK
+apply acting agent
+Traceback (most recent call last):
+  File "domains_and_results/box_prepare.py", line 385, in <module>
+    node_explo(with_contrib, with_graph, with_delay, n)
+  File "domains_and_results/box_prepare.py", line 337, in node_explo
+    first_node, Ns, u_flagged_nodes, n_plot = htpa.heuristic_exploration(n_plot)
+  File "/home/anthonyf/.local/lib/python3.6/site-packages/hatpehda/hatpehda.py", line 985, in heuristic_exploration
+    explore_node(picked_node, e_flagged_nodes, new_e_flagged_nodes, u_flagged_nodes, Ns)
+  File "/home/anthonyf/.local/lib/python3.6/site-packages/hatpehda/hatpehda.py", line 1110, in explore_node
+    applied_refinement = get_applied_refinement(next_agent_name, newagents, previous_action, current_cost, delaying=(node.type==Node.Type.D))
+  File "/home/anthonyf/.local/lib/python3.6/site-packages/hatpehda/hatpehda.py", line 1913, in get_applied_refinement
+    raise Exception(str(action) + " not applicable with other's beliefs RNA")
+Exception: 28-HP-add_ball('box1',)-0.0 not applicable with other's beliefs RNA

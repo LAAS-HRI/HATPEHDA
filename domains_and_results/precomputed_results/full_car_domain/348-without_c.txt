@@ -1,0 +1,90 @@
+RUN N=348 With=False
+INITIAL STATES
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-Car_maintenance()
+| AGENDA human =
+||	-1-HA-Car_maintenance()
+|------------------------------------------------------------------------
+| STATE robot =
+|| robot_init.at_robot = front 	ObsType.OBS 	loc=front
+|| robot_init.at_human = front 	ObsType.OBS 	loc=front
+|| robot_init.at_oil_bottle = front 	ObsType.INF 	loc=front
+|| robot_init.washer = full 	ObsType.OBS 	loc=front
+|| robot_init.oil = low 	ObsType.INF 	loc=front
+|| robot_init.hood = open 	ObsType.OBS 	loc=front
+|| robot_init.rear_light = new 	ObsType.INF 	loc=rear
+|| robot_init.left_light = todo 	ObsType.INF 	loc=front
+|| robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+|| human_init.at_robot = front
+|| human_init.at_human = front
+|| human_init.at_oil_bottle = front
+|| human_init.washer = full
+|| human_init.oil = full
+|| human_init.hood = open
+|| human_init.rear_light = old
+|| human_init.left_light = todo
+|| human_init.right_light = ok
+|________________________________________________________________________
+Start first exploration
+first node = 0.0 Flag.E Type.I#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[]
+
+<@> picked node = 0.0 Flag.E Type.I#1, (human BEGIN []) -1> (human BEGIN []) prev=None next=[]
+=> R step explo ==================================================================================
+__________________________________________________________________________
+| AGENDA robot =
+||	-0-RA-Car_maintenance()
+| AGENDA human =
+||	-1-HA-Car_maintenance()
+|------------------------------------------------------------------------
+| STATE robot =
+||robot_init.at_robot = front 	ObsType.OBS 	loc=front
+||robot_init.at_human = front 	ObsType.OBS 	loc=front
+||robot_init.at_oil_bottle = front 	ObsType.INF 	loc=front
+||robot_init.washer = full 	ObsType.OBS 	loc=front
+||robot_init.oil = low 	ObsType.INF 	loc=front
+||robot_init.hood = open 	ObsType.OBS 	loc=front
+||robot_init.rear_light = new 	ObsType.INF 	loc=rear
+||robot_init.left_light = todo 	ObsType.INF 	loc=front
+||robot_init.right_light = ok 	ObsType.INF 	loc=front
+| STATE human =
+||human_init.at_robot = front
+||human_init.at_human = front
+||human_init.at_oil_bottle = front
+||human_init.washer = full
+||human_init.oil = full
+||human_init.hood = open
+||human_init.rear_light = old
+||human_init.left_light = todo
+||human_init.right_light = ok
+|________________________________________________________________________
+robot- Refine agenda
+Task to refine: 0-RA-Car_maintenance()
+decomp i= 0 : origin
+	0-RA-Car_maintenance() => [3-RP-go_front_car()-0.0 - 4-RP-refill_washer()-0.0 - 5-RP-refill_oil()-0.0 - 6-RP-store_oil()-0.0] : dec_car_maintenance_R
+	3-RP-go_front_car()-0.0 => [3-RP-go_front_car()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[4-RP-refill_washer()-0.0, 5-RP-refill_oil()-0.0, 6-RP-store_oil()-0.0]
+	4-RP-refill_washer()-0.0 => [4-RP-refill_washer()-0.0] : 
+[92m	already done[0m
+	continue .. next_subtasks=[5-RP-refill_oil()-0.0, 6-RP-store_oil()-0.0]
+	end 0
+refinement = 
+[
+	origin: [5-RP-refill_oil()-0.0 - 6-RP-store_oil()-0.0]
+]
+Decomp OK
+apply acting agent
+Traceback (most recent call last):
+  File "domains_and_results/car_maintenance.py", line 338, in <module>
+    node_explo(with_contrib, with_graph, with_delay, n)
+  File "domains_and_results/car_maintenance.py", line 288, in node_explo
+    first_node, Ns, u_flagged_nodes, n_plot = htpa.heuristic_exploration(n_plot)
+  File "/home/anthonyf/.local/lib/python3.6/site-packages/hatpehda/hatpehda.py", line 985, in heuristic_exploration
+    explore_node(picked_node, e_flagged_nodes, new_e_flagged_nodes, u_flagged_nodes, Ns)
+  File "/home/anthonyf/.local/lib/python3.6/site-packages/hatpehda/hatpehda.py", line 1110, in explore_node
+    applied_refinement = get_applied_refinement(next_agent_name, newagents, previous_action, current_cost, delaying=(node.type==Node.Type.D))
+  File "/home/anthonyf/.local/lib/python3.6/site-packages/hatpehda/hatpehda.py", line 1918, in get_applied_refinement
+    raise Exception(str(action) + " not applicable with other's beliefs RNA")
+Exception: 5-RP-refill_oil()-0.0 not applicable with other's beliefs RNA

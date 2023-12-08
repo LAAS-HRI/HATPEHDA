@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(hatpehda)
+
+find_package(catkin REQUIRED COMPONENTS rospy)
+
+# add_message_files(
+#  FILES  # e.g. Floats.msg HeaderString.msg
+# )
+# add_service_files(
+#   DIRECTORY srv
+#   FILES AddTwoInts.srv BadTwoInts.srv
+# )
+
+## Generate services in the 'srv' folder
+# add_service_files(
+#  FILES  # e.g. Floats.srv HeaderString.srv
+#)
+
+## Generate added messages and services with any dependencies
+# generate_messages()
+
+catkin_package(
+  CATKIN_DEPENDS
+)
+
+catkin_python_setup()
+
+
+# catkin_install_python(PROGRAMS domains/directors_task/directors_task.py
+    # DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )

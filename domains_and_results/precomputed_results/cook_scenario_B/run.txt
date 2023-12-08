@@ -1,0 +1,20 @@
+Domain name : cooking_pasta
+Elasped time = 0.28s
+
+=> DETAILED RESULTS <=:
+Count (total=512) = 
+	with(0 fail - 100.0% success) =
+		with_com(0- 0.0%) = []
+		h_wait(1- 0.19%) = [9]
+		non_rel_div(0- 0.0%) = []
+		delayed(0- 0.0%) = []
+		failed(0) = []
+	without(1 fail- 0.0% success): 
+		success(0) = []
+		h_wait(0- 0%) = []
+		rna(1- 100.0%) = [9]
+		idl(0- 0.0%) = []
+		other(0- 0.0%) = []
+
+=> SHORT RESULTS <=
+ cooking_pasta: Old Solver: S=0.0% NA=100.0% IDL=0.0% Our Solver: S=100.0% Com=0.0%

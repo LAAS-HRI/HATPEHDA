@@ -1,0 +1,6 @@
+.hg
+.idea
+__pycache__
+build/
+.vscode/
+graph_gui_hatpehda*
