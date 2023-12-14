@@ -580,7 +580,7 @@ if __name__ == "__main__":
 
         elif choice=="7":
             while True: 
-                choice = input("\t1) task_end_early\n\t2) human_min_work\n\t3) fake_human_free_early\n\t4) human_free_early")
+                choice = input("\t1) task_end_early\n\t2) human_min_work\n\t3) fake_human_free_early\n\t4) real_human_free_early\n\tChoice: ")
                 if choice=="1":
                     CM.g_PSTATES = sol_tee
                     break
