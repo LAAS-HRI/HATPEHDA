@@ -287,7 +287,17 @@ def main():
     print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
     dump(f'policy_{ConM.G_POLICY_NAME}.p')
 
-    ConM.setPolicyName('human_free_early')
+    ConM.setPolicyName('fake_human_free_early')
+    g_domain_name, pstates, final_pstates = load_solution()
+    CM.g_PSTATES = pstates
+    CM.g_FINAL_IPSTATES = final_pstates
+    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Nb states = {len(CM.g_PSTATES)}")
+    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
+    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
+    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+
+    ConM.setPolicyName('real_human_free_early')
     g_domain_name, pstates, final_pstates = load_solution()
     CM.g_PSTATES = pstates
     CM.g_FINAL_IPSTATES = final_pstates

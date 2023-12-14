@@ -255,7 +255,7 @@ def render_generation_step(filename='render_dot.gv'):
     global g_opti_branch_id
     s = '0.1'
     ar_size = '0.4'
-    g = graphviz.Digraph('G', filename=filename, format="png", 
+    g = graphviz.Digraph('G', filename=filename, format="svg", 
         engine="dot",
         # engine="neato",
         graph_attr=dict(splines='true',
@@ -521,20 +521,14 @@ def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False):
 
 if __name__ == "__main__":
 
-    if len(sys.argv)<=1:
-        CM.g_domain_name, sol_tee, CM.g_FINAL_IPSTATES = load("policy_task_end_early.p")
-        sol_hmw = load("policy_human_min_work.p")[1]
-        sol_hfe = load("policy_human_free_early.p")[1]
-        CM.g_PSTATES = sol_tee
-        print(f"Number of leaves: {len(sol_tee)}")
-        print(f"Nb states = {len(CM.g_FINAL_IPSTATES)}")
-        current_policy = "task_end_early"
-    else:
-        CM.g_domain_name, sol, CM.g_FINAL_IPSTATES = load(sys.argv[1])
-        CM.g_PSTATES = sol
-        print(f"Number of leaves: {len(sol)}")
-        print(f"Nb states = {len(CM.g_FINAL_IPSTATES)}")
-        current_policy = "Unknown"
+    CM.g_domain_name, sol_tee, CM.g_FINAL_IPSTATES = load("policy_task_end_early.p")
+    sol_hmw = load("policy_human_min_work.p")[1]
+    sol_fhfe = load("policy_fake_human_free_early.p")[1]
+    sol_hfe = load("policy_real_human_free_early.p")[1]
+    CM.g_PSTATES = sol_tee
+    print(f"Number of leaves: {len(sol_tee)}")
+    print(f"Nb states = {len(CM.g_FINAL_IPSTATES)}")
+    current_policy = "task_end_early"
 
     show_pstate_id = False
         
@@ -586,7 +580,7 @@ if __name__ == "__main__":
 
         elif choice=="7":
             while True: 
-                choice = input("\t1) task_end_early\n\t2) human_min_work\n\t3) human_free_early")
+                choice = input("\t1) task_end_early\n\t2) human_min_work\n\t3) fake_human_free_early\n\t4) human_free_early")
                 if choice=="1":
                     CM.g_PSTATES = sol_tee
                     break
@@ -594,6 +588,9 @@ if __name__ == "__main__":
                     CM.g_PSTATES = sol_hmw
                     break
                 elif choice=="3":
+                    CM.g_PSTATES = sol_fhfe
+                    break
+                elif choice=="4":
                     CM.g_PSTATES = sol_hfe
                     break
                 else:

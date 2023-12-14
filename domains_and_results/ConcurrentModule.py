@@ -863,9 +863,18 @@ def get_exec_prefs():
             ("NbDrop",                  False),
         ],
 
-        "human_free_early": [
+        "fake_human_free_early": [
             ("PlaceFirstBar",           True),
             ("Annoying",                False),
+            ("TimeEndHumanDuty",        False),
+            ("HumanEffort",             False),
+            ("GlobalEffort",            False),
+            ("TimeTaskCompletion",      False),
+            ("PassiveWhileHolding",     False),
+            ("NbDrop",                  False),
+        ],
+
+        "real_human_free_early": [
             ("TimeEndHumanDuty",        False),
             ("HumanEffort",             False),
             ("GlobalEffort",            False),
@@ -885,19 +894,6 @@ def get_exec_prefs():
     }
 
     return prefs
-
-def esti_prefs_pairs():
-    # prefs - esti
-    pairs = {
-        "tee_tee": ("task_end_early", "task_end_early"),
-        "hmw_hmw": ("human_min_work", "human_min_work"),
-        "hfe_hfe": ("human_free_early", "human_free_early"),
-        
-        "hmw_tee": ("human_min_work", "task_end_early"),
-        "tee_hmw": ("task_end_early", "human_min_work"),
-    }
-
-    return pairs
 
 def update_robot_choices(init_step: Step):
     
