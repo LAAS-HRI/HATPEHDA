@@ -526,8 +526,8 @@ if __name__ == "__main__":
     sol_fhfe = load("policy_fake_human_free_early.p")[1]
     sol_hfe = load("policy_real_human_free_early.p")[1]
     CM.g_PSTATES = sol_tee
-    print(f"Number of leaves: {len(sol_tee)}")
-    print(f"Nb states = {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Nb states = {len(CM.g_PSTATES)}")
     current_policy = "task_end_early"
 
     show_pstate_id = False

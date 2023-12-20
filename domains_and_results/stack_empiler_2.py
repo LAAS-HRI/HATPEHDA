@@ -79,7 +79,7 @@ def m_Stack_multi_decomp(state, agent):
                 multi_subtasks.append([ ("Unstack", cube_name), ("Stack",) ])
 
     if multi_subtasks==[]:
-        raise Exception("WeirdStack")
+        raise Exception("WeirdStack") # Shouldn't happen, either done condition should be triggered or the precond should prevent decomp
         multi_subtasks=[[]] # Done
     return multi_subtasks
 m_Stack = CM.Method("Stack", pre_cond=m_Stack_precond, done_cond=m_Stack_donecond, multi_decomp=m_Stack_multi_decomp)
