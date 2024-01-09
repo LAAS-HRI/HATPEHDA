@@ -32,6 +32,7 @@ class ActionPair:
         self.best_metrics = None
         self.best = False
         self.best_compliant = False
+        self.best_compliant_h = False
 
     def __lt__(self, other):
         return compare_metrics(self.best_metrics, other.best_metrics, get_exec_prefs()[G_POLICY_NAME])

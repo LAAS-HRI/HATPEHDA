@@ -168,6 +168,7 @@ def propagate(to_merge, to_propagate):
                 parent_ps.best_metrics = new_metrics
                 parent_ap.best = True
                 parent_ap.best_compliant = True
+                parent_ap.best_compliant_h = True
                 to_propagate = to_propagate.union({parent_ps.id})
 
     return to_merge, to_propagate
@@ -200,6 +201,7 @@ def merge(to_merge, to_propagate):
             best_pair = sorted_pairs[0]
             best_pair.best = True
             best_pair.best_compliant = True
+            best_pair.best_compliant_h = True
             ps_to_merge.best_metrics = best_pair.best_metrics
 
             # extract human option and find best compliant pair for each human option
@@ -226,6 +228,25 @@ def merge(to_merge, to_propagate):
                 best_compliant_pair = cp_sorted_pairs[0]
                 best_compliant_pair.best_compliant = True
 
+            # extract robot option and find best compliant_h pair for each robot option
+            # extract robot actions
+            robot_actions = set()
+            for p in ps_to_merge.children:
+                robot_actions = robot_actions.union( { f"{p.robot_action.name}{p.robot_action.parameters}" } )
+            # for each robot action
+            for ra in robot_actions:
+                if ra == f"{best_pair.robot_action.name}{best_pair.robot_action.parameters}":
+                    continue
+                # filter non relevant pairs in a copy of sorted pairs
+                cp_sorted_pairs = sorted_pairs[:]
+                for p in ps_to_merge.children:
+                    if f"{p.robot_action.name}{p.robot_action.parameters}" != ra:
+                        cp_sorted_pairs.remove(p)
+
+                # first is best compliant pair
+                best_compliant_pair = cp_sorted_pairs[0]
+                best_compliant_pair.best_compliant_h = True
+            
             # add to to_propagate
             to_propagate = to_propagate.union({ips_to_merge})
 
