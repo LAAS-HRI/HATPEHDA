@@ -536,38 +536,38 @@ if __name__ == "__main__":
         print(" ")
         print("Current_policy = ", current_policy)
         print(" ")
-        print("0) Full sol")
-        print("1) Full sol (simplified)")
-        print("2) Policy only")
-        print("3) Policy only (simplified)")
-        print("4) *Explore*")
-        print("5) Best Trace")
-        print("6) Show leaf")
-        print("7) Switch policy")
+        print("1) Full sol")
+        print("2) Full sol (simplified)")
+        print("3) Policy only")
+        print("4) Policy only (simplified)")
+        print("5) *Explore*")
+        print("6) Best Trace")
+        print("7) Show leaf")
+        print("8) Switch policy")
         show_str = "Show" if not show_pstate_id else "Hide"
-        print("8) " + show_str + " pstate id")
+        print("9) " + show_str + " pstate id")
         print("Choice: ", end="")
         choice = input()
 
-        if choice=="0":
+        if choice=="1":
             render_new_sol(show_pstate_id=show_pstate_id)
 
-        elif choice=="1":
+        elif choice=="2":
             render_simple()
 
-        elif choice=="2":
+        elif choice=="3":
             render_policy(show_pstate_id=show_pstate_id)
 
-        elif choice=="3":
+        elif choice=="4":
             render_policy_simple()
 
-        elif choice=="4":
+        elif choice=="5":
             print("not implemented...")
 
-        elif choice=="5":
+        elif choice=="6":
             render_best_trace()
 
-        elif choice=="6":
+        elif choice=="7":
             while True:
                 id = input("\tEnter leaf id to render: ")
                 if id in CM.g_FINAL_IPSTATES:
@@ -578,23 +578,27 @@ if __name__ == "__main__":
                     break
                 render_leaf(id,  show_pstate_id=show_pstate_id, show_only_policy=False)
 
-        elif choice=="7":
+        elif choice=="8":
             while True: 
                 choice = input("\t1) task_end_early\n\t2) human_min_work\n\t3) fake_human_free_early\n\t4) real_human_free_early\n\tChoice: ")
                 if choice=="1":
                     CM.g_PSTATES = sol_tee
+                    current_policy = "task_end_early"
                     break
                 elif choice=="2":
                     CM.g_PSTATES = sol_hmw
+                    current_policy = "human_min_work"
                     break
                 elif choice=="3":
                     CM.g_PSTATES = sol_fhfe
+                    current_policy = "fake_human_free_early"
                     break
                 elif choice=="4":
                     CM.g_PSTATES = sol_hfe
+                    current_policy = "real_human_free_early"
                     break
                 else:
                     print("Wrong input...")
 
-        elif choice=="8":
+        elif choice=="9":
             show_pstate_id = not show_pstate_id
