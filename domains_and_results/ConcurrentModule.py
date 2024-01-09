@@ -855,8 +855,8 @@ def sorting_branches(final_leaves: List[Step]): # only for robot
 def get_exec_prefs():
     prefs = {
         "human_min_work": [
-            ("HumanEffort",             False),
             ("Annoying",                True),
+            ("HumanEffort",             False),
             ("GlobalEffort",            False),
             ("PassiveWhileHolding",     False),
             ("TimeTaskCompletion",      False),

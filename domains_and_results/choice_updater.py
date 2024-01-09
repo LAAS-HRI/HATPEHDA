@@ -143,14 +143,21 @@ def propagate(to_merge, to_propagate):
             if parent_ap.human_action.name=="drop":
                 new_metrics["NbDrop"] += 1
 
-            # if both loc clear and robot pick one in center
+            # if pick in center R is annoying
             if ps_to_propagate.state.stack.get('l1')==None\
             and ps_to_propagate.state.stack.get('l2')==None\
+            and ps_to_propagate.state.holding.get('H')==None\
             and parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
                 new_metrics['Annoying'] += 1
             if ps_to_propagate.state.stack.get('l4')==None\
             and ps_to_propagate.state.stack.get('l5')==None\
+            and ps_to_propagate.state.holding.get('H')==None\
             and parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
+                new_metrics['Annoying'] += 1
+            if ps_to_propagate.state.stack.get('l5')==None\
+            and ps_to_propagate.state.stack.get('l6')==None\
+            and ps_to_propagate.state.holding.get('H')==None\
+            and parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
                 new_metrics['Annoying'] += 1
 
             # if robot places first ping bar
