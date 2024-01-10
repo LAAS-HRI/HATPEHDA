@@ -143,22 +143,31 @@ def propagate(to_merge, to_propagate):
             if parent_ap.human_action.name=="drop":
                 new_metrics["NbDrop"] += 1
 
-            # if pick in center R is annoying
-            if ps_to_propagate.state.stack.get('l1')==None\
-            and ps_to_propagate.state.stack.get('l2')==None\
-            and ps_to_propagate.state.holding.get('H')==None\
-            and parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
-                new_metrics['Annoying'] += 1
-            if ps_to_propagate.state.stack.get('l4')==None\
-            and ps_to_propagate.state.stack.get('l5')==None\
-            and ps_to_propagate.state.holding.get('H')==None\
-            and parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
-                new_metrics['Annoying'] += 1
-            if ps_to_propagate.state.stack.get('l5')==None\
-            and ps_to_propagate.state.stack.get('l6')==None\
-            and ps_to_propagate.state.holding.get('H')==None\
-            and parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
-                new_metrics['Annoying'] += 1
+            # Annoying                
+            if ps_to_propagate.state.stack.get('l1')==None and ps_to_propagate.state.stack.get('l2')==None:
+                if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
+                    new_metrics['Annoying'] += 4
+                elif parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='y1'\
+                and parent_ap.robot_action.name=='pick':
+                    new_metrics['Annoying'] += 1
+
+            if ps_to_propagate.state.stack.get('l4')==None and ps_to_propagate.state.stack.get('l5')==None:
+                if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
+                    new_metrics['Annoying'] += 4
+                elif parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='o1'\
+                and parent_ap.robot_action.name=='pick':
+                    new_metrics['Annoying'] += 1
+
+            if ps_to_propagate.state.stack.get('l6')==None:
+                if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
+                    if ps_to_propagate.state.stack.get('l5')==None:
+                        new_metrics['Annoying'] += 5
+                    else:
+                        new_metrics['Annoying'] += 4
+                elif parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='w1'\
+                and parent_ap.robot_action.name=='pick':
+                    new_metrics['Annoying'] += 1
+                
 
             # if robot places first ping bar
             if parent_ap.robot_action.name=='place' and parent_ap.robot_action.parameters[0]=='l3' and parent_ap.robot_action.parameters[1]=='p2':
@@ -177,6 +186,8 @@ def propagate(to_merge, to_propagate):
                 parent_ap.best_compliant = True
                 parent_ap.best_compliant_h = True
                 to_propagate = to_propagate.union({parent_ps.id})
+                for c in parent_ps.children:
+                    c.rank = 0
 
     return to_merge, to_propagate
 
@@ -205,6 +216,8 @@ def merge(to_merge, to_propagate):
             # merge + identify best choices
             # identify best pair/metrics, mark and best pair, and store in pstate
             sorted_pairs = list(np.sort( np.array( ps_to_merge.children ) ))
+            for i,p in enumerate(sorted_pairs):
+                p.rank = i
             best_pair = sorted_pairs[0]
             best_pair.best = True
             best_pair.best_compliant = True

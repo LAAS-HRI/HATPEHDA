@@ -30,7 +30,7 @@ def load_solution():
 
     return load(filename)
 
-def compute_action_pair_label(action_pair):
+def compute_action_pair_label(action_pair, with_rank=False):
 
     if action_pair.human_action.is_idle():
         ha = "IDLE"
@@ -50,14 +50,17 @@ def compute_action_pair_label(action_pair):
     else:
         ra = f"{action_pair.robot_action.name}{action_pair.robot_action.parameters}"
 
-    return f"H: {ha}\nR: {ra}"
+    s = f"H: {ha}\nR: {ra}"
+    if with_rank:
+        s += f" [{action_pair.rank}]"
+    return s
 
 def compute_action_pair_name(pair):
     return f"{pair.human_action.id}-{pair.robot_action.id}"
 
 ###########################
 
-def render_new_sol(show_pstate_id=False):
+def render_new_sol(show_pstate_id=False, show_pair_rank=False):
     global g_opti_branch_id
     g = graphviz.Digraph('G', filename='render_dot.gv', format="svg", 
         engine="dot",
@@ -97,22 +100,22 @@ def render_new_sol(show_pstate_id=False):
                 g.node(str(ps.id), shape='circle', style='filled', color='black', label='', width="0.2", fixedsize="true")
             else:
                 if show_pstate_id:
-                    g.node(str(ps.id), shape='circle')
+                    g.node(str(ps.id), shape='circle', style='filled', fillcolor='white')
                 else:
-                    g.node(str(ps.id), shape='circle', label='', width='0.15', fixedsize="true")
+                    g.node(str(ps.id), shape='circle', style='filled', fillcolor='white', label='', width='0.15', fixedsize="true")
 
             for c in ps.children:
 
                 if c.child!=None:
 
-                    action_pair_node_name = f"{c.human_action.id}-{c.robot_action.id}"
+                    action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name)
                     if c.best:
                         node_style = "rounded,filled"
                         node_fillcolor = "gold"
-                        g.node(action_pair_node_name, label=compute_action_pair_label(c), shape="box", style=node_style, fillcolor=node_fillcolor)
+                        g.node(action_pair_node_name, label=compute_action_pair_label(c, with_rank=show_pair_rank), shape="box", style=node_style, fillcolor=node_fillcolor)
                     else:
-                        g.node(action_pair_node_name, label=compute_action_pair_label(c), shape="box")
+                        g.node(action_pair_node_name, label=compute_action_pair_label(c, with_rank=show_pair_rank), shape="box")
                     g.edge(action_pair_node_name, str(c.child))
                     ipstates_to_render = ipstates_to_render.union({c.child})
 
@@ -120,7 +123,7 @@ def render_new_sol(show_pstate_id=False):
 
     g.view()
 
-def render_policy(show_pstate_id=False):
+def render_policy(show_pstate_id=False, show_pair_rank=False):
     global g_opti_branch_id
     g = graphviz.Digraph('G', filename='render_dot.gv', format="svg", 
         engine="dot",
@@ -167,7 +170,7 @@ def render_policy(show_pstate_id=False):
             for c in ps.children:
 
                 if c.best_compliant:
-                    action_pair_node_name = f"{c.human_action.id}-{c.robot_action.id}"
+                    action_pair_node_name = compute_action_pair_name(c)
 
                     arrowhead = "normal" 
                     arrowsize = "1.0" 
@@ -180,7 +183,7 @@ def render_policy(show_pstate_id=False):
                         node_fillcolor = "gold"
 
                     g.edge(str(ps.id), action_pair_node_name, arrowhead=arrowhead, arrowsize=arrowsize)
-                    g.node(action_pair_node_name, label=compute_action_pair_label(c), shape="box", style=node_style, fillcolor=node_fillcolor)
+                    g.node(action_pair_node_name, label=compute_action_pair_label(c, with_rank=show_pair_rank), shape="box", style=node_style, fillcolor=node_fillcolor)
                     g.edge(action_pair_node_name, str(c.child), arrowhead=arrowhead, arrowsize=arrowsize)
 
                     ipstates_to_render = ipstates_to_render.union({c.child})
@@ -239,7 +242,7 @@ def render_simple():
 
                 if c.child!=None:
 
-                    action_pair_node_name = f"{c.human_action.id}-{c.robot_action.id}"
+                    action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name, arrowsize=ar_size)
                     g.node(action_pair_node_name, label='', shape="box", width="0.1", height="0.1", fixedsize="true")
 
@@ -302,7 +305,7 @@ def render_generation_step(filename='render_dot.gv'):
 
                 if c.child!=None:
 
-                    action_pair_node_name = f"{c.human_action.id}-{c.robot_action.id}"
+                    action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name, arrowsize=ar_size)
                     pair_color = "white" if c.best_metrics==None else "red"
                     g.node(action_pair_node_name, label='', shape="box", style="filled", fillcolor=pair_color, width="0.1", height="0.1", fixedsize="true")
@@ -446,7 +449,7 @@ def render_best_trace():
 
     g.view()
 
-def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False):
+def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False, show_pair_rank=False):
     s = '0.2'
     g = graphviz.Digraph('G', filename='render_dot.gv', format="svg", 
         engine="dot",
@@ -495,7 +498,7 @@ def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False):
             for p in ps.parents:
 
                 if (not show_only_policy) or (show_only_policy and p.best_compliant): 
-                    action_pair_node_name = f"{p.human_action.id}-{p.robot_action.id}"
+                    action_pair_node_name = compute_action_pair_name(p)
 
                     arrowhead = "normal" 
                     arrowsize = "1.0" 
@@ -508,7 +511,7 @@ def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False):
                         node_fillcolor = "gold"
 
                     g.edge(action_pair_node_name, str(ps.id), arrowhead=arrowhead, arrowsize=arrowsize)
-                    g.node(action_pair_node_name, label=compute_action_pair_label(p), shape="box", style=node_style, fillcolor=node_fillcolor)
+                    g.node(action_pair_node_name, label=compute_action_pair_label(p, with_rank=show_pair_rank), shape="box", style=node_style, fillcolor=node_fillcolor)
                     g.edge(str(p.parent), action_pair_node_name, arrowhead=arrowhead, arrowsize=arrowsize)
 
                     ipstates_to_render = ipstates_to_render.union({p.parent})
@@ -531,6 +534,7 @@ if __name__ == "__main__":
     current_policy = "task_end_early"
 
     show_pstate_id = False
+    show_pair_rank = False
         
     while True:
         print(" ")
@@ -544,19 +548,21 @@ if __name__ == "__main__":
         print("6) Best Trace")
         print("7) Show leaf")
         print("8) Switch policy")
-        show_str = "Show" if not show_pstate_id else "Hide"
-        print("9) " + show_str + " pstate id")
+        show_pstate_id_str = "Show" if not show_pstate_id else "Hide"
+        print("9) " + show_pstate_id_str + " pstate id")
+        show_pair_rank_str = "Show" if not show_pair_rank else "Hide"
+        print("10) " + show_pair_rank_str + " pair rank")
         print("Choice: ", end="")
         choice = input()
 
         if choice=="1":
-            render_new_sol(show_pstate_id=show_pstate_id)
+            render_new_sol(show_pstate_id=show_pstate_id, show_pair_rank=show_pair_rank)
 
         elif choice=="2":
             render_simple()
 
         elif choice=="3":
-            render_policy(show_pstate_id=show_pstate_id)
+            render_policy(show_pstate_id=show_pstate_id, show_pair_rank=show_pair_rank)
 
         elif choice=="4":
             render_policy_simple()
@@ -576,7 +582,7 @@ if __name__ == "__main__":
                 if show_only_policy in ["1","2"]:
                     show_only_policy = show_only_policy=="1"
                     break
-                render_leaf(id,  show_pstate_id=show_pstate_id, show_only_policy=False)
+                render_leaf(id,  show_pstate_id=show_pstate_id, show_only_policy=False, show_pair_rank=show_pair_rank)
 
         elif choice=="8":
             while True: 
@@ -602,3 +608,6 @@ if __name__ == "__main__":
 
         elif choice=="9":
             show_pstate_id = not show_pstate_id
+
+        elif choice=="10":
+            show_pair_rank = not show_pair_rank
