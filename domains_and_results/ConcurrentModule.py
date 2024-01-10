@@ -866,7 +866,6 @@ def get_exec_prefs():
 
         "fake_human_free_early": [
             ("PlaceFirstBar",           True),
-            ("Annoying",                False),
             ("TimeEndHumanDuty",        False),
             ("HumanEffort",             False),
             ("GlobalEffort",            False),
