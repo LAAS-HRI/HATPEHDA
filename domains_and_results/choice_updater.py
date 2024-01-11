@@ -144,30 +144,70 @@ def propagate(to_merge, to_propagate):
                 new_metrics["NbDrop"] += 1
 
             # Annoying                
-            if ps_to_propagate.state.stack.get('l1')==None and ps_to_propagate.state.stack.get('l2')==None:
-                if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
-                    new_metrics['Annoying'] += 4
-                elif parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='y1'\
-                and parent_ap.robot_action.name=='pick':
-                    new_metrics['Annoying'] += 1
-
-            if ps_to_propagate.state.stack.get('l4')==None and ps_to_propagate.state.stack.get('l5')==None:
-                if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
-                    new_metrics['Annoying'] += 4
-                elif parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='o1'\
-                and parent_ap.robot_action.name=='pick':
-                    new_metrics['Annoying'] += 1
-
-            if ps_to_propagate.state.stack.get('l6')==None:
-                if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
-                    if ps_to_propagate.state.stack.get('l5')==None:
+            if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
+                parent_ps = CM.g_PSTATES[parent_ap.parent]
+                for ap in parent_ps.children:
+                    if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='y1':
                         new_metrics['Annoying'] += 5
-                    else:
-                        new_metrics['Annoying'] += 4
-                elif parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='w1'\
-                and parent_ap.robot_action.name=='pick':
-                    new_metrics['Annoying'] += 1
-                
+                        break
+                for ap in parent_ps.children:
+                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='r1':
+                        new_metrics['Annoying'] += 3
+                        break
+            if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='y1':
+                parent_ps = CM.g_PSTATES[parent_ap.parent]
+                found = False
+                for ap in parent_ps.children:
+                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='y1':
+                        found = True
+                        break
+                if found:
+                    if parent_ap.robot_action.is_passive():
+                        new_metrics['Annoying'] -= 3
+
+            if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
+                parent_ps = CM.g_PSTATES[parent_ap.parent]
+                for ap in parent_ps.children:
+                    if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='o1':
+                        new_metrics['Annoying'] += 5
+                        break
+                for ap in parent_ps.children:
+                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='s1':
+                        new_metrics['Annoying'] += 3
+                        break
+            if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='o1':
+                parent_ps = CM.g_PSTATES[parent_ap.parent]
+                found = False
+                for ap in parent_ps.children:
+                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='o1':
+                        found = True
+                        break
+                if found:
+                    if parent_ap.robot_action.is_passive():
+                        new_metrics['Annoying'] -= 3
+
+            if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
+                parent_ps = CM.g_PSTATES[parent_ap.parent]
+                for ap in parent_ps.children:
+                    if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='w1':
+                        new_metrics['Annoying'] += 5
+                        break
+                for ap in parent_ps.children:
+                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='s1':
+                        new_metrics['Annoying'] += 3
+                        break
+            if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='w1':
+                parent_ps = CM.g_PSTATES[parent_ap.parent]
+                found = False
+                for ap in parent_ps.children:
+                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='w1':
+                        found = True
+                        break
+                if found:
+                    if parent_ap.robot_action.is_passive():
+                        new_metrics['Annoying'] -= 3
+
+
 
             # if robot places first ping bar
             if parent_ap.robot_action.name=='place' and parent_ap.robot_action.parameters[0]=='l3' and parent_ap.robot_action.parameters[1]=='p2':
