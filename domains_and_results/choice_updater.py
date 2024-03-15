@@ -56,19 +56,17 @@ def dump_solution():
 ##################################################################################
 
 
-nb_traces = 0
-def compute_nb_traces(ips=0):
-    global nb_traces
+g_lengths = []
+def compute_traces(ips=0, current_length=0):
+    global g_lengths
     ps = CM.g_PSTATES[ips]
     for i, action_pair in enumerate(ps.children):
         if action_pair.child!=None:
             child_ips = action_pair.child
             if child_ips in CM.g_FINAL_IPSTATES:
-                nb_traces += 1
+                g_lengths.append(current_length+1)
             else:
-                compute_nb_traces(ips=child_ips)
-
-    return nb_traces
+                compute_traces(ips=child_ips, current_length=current_length+1)
 
 ##################################
 
@@ -395,8 +393,14 @@ def main():
     # CM.g_FINAL_IPSTATES = final_pstates
     # print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
     # print(f"Nb states = {len(CM.g_PSTATES)}")
-    # nb_traces = exec_chrono(compute_nb_traces, "Computing nb traces")
-    # print("\tnb_traces= ", nb_traces)
+    # exec_chrono(new_compute_traces, "Computing nb traces")
+
+    # lengths = np.array(g_lengths)
+    # print('\t nb=, len(g_lengths))
+    # print("\t mean=", np.mean(lengths))
+    # print("\t std=", np.std(lengths))
+    # print("\t min=", np.min(lengths))
+    # print("\t max=", np.max(lengths))
 
     ##############################################
 
