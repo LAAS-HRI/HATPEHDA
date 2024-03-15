@@ -393,10 +393,10 @@ def main():
     # CM.g_FINAL_IPSTATES = final_pstates
     # print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
     # print(f"Nb states = {len(CM.g_PSTATES)}")
-    # exec_chrono(new_compute_traces, "Computing nb traces")
+    # exec_chrono(compute_traces, "Computing nb traces")
 
     # lengths = np.array(g_lengths)
-    # print('\t nb=, len(g_lengths))
+    # print("\t nb=", len(lengths))
     # print("\t mean=", np.mean(lengths))
     # print("\t std=", np.std(lengths))
     # print("\t min=", np.min(lengths))
