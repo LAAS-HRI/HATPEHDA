@@ -1342,13 +1342,7 @@ if __name__ == "__main__":
         print("\t Nb leaves = ", len(CM.g_FINAL_IPSTATES))
         print("\t Nb states = ", len(CM.g_PSTATES))
 
-        exec_chrono(compute_nb_traces, "Computing traces")
-        lengths = np.array(choice_updater.g_lengths)
+        nb_traces = exec_chrono(compute_nb_traces, "Computing traces")
 
-        print("\t Nb traces = ", len(lengths))
-        print(f"\t Mean length = {np.mean(lengths):0.3f}")
-        print(f"\t SD length = {np.std(lengths):.3f}")
-        print("\t Min length = ", np.min(lengths))
-        print("\t Max length = ", np.max(lengths))
-
+        print("\t Nb traces = ", nb_traces)
         print("\t Best_metrics: ", choice_updater.str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
