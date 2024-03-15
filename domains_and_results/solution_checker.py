@@ -28,7 +28,7 @@ def new_check_solution(goal_condition_in):
         s = CM.g_PSTATES[ips]
         if (not goal_condition_in(s.state)) or inactivity_deadlock(s):
             states_with_issue.append(s)
-    print("Done! - %.2fs" %(time.time()-s_t))
+    print("Done! - %.5fs" %(time.time()-s_t))
 
     if len(states_with_issue)>0:
         print(f"\tErroneous Steps detected ! [{len(states_with_issue)}]\n")
