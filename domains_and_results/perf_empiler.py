@@ -12,7 +12,6 @@ import numpy as np
 
 
 def scenario_1():
-
     CUBES = {
         'p2',
         'o1',
@@ -385,7 +384,6 @@ def scenario_3():
             setattr(self, agent_name, value)
 
 def scenario_4():
-
     CUBES = {
         'p2',
         'o1',
