@@ -4,6 +4,8 @@ import ConcurrentModule as ConM
 import CommonModule as CM
 import time
 
+import solution_checker
+
 import choice_updater
 from choice_updater import exec_chrono
 import numpy as np
@@ -179,16 +181,26 @@ def initDomain():
 if __name__ == "__main__":
     sys.setrecursionlimit(100000)
 
+    ########################
+
     scenario_1()
+
+    ########################
 
     initDomain()
 
     s_t = time.time()
     ConM.explore()
-    print("time to explore: %.2fs" %(time.time()-s_t))
+    print("time to explore: %.5fs" %(time.time()-s_t))
+
+    if not solution_checker.new_check_solution(stack_empiler_2.goal_condition):
+        exit()
 
     exec_chrono(choice_updater.compute_traces, "Computing traces")
     lengths = np.array(choice_updater.g_lengths)
+
+    ConM.setPolicyName('task_end_early')
+    exec_chrono(choice_updater.update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
 
     print("\t Nb leaves = ", len(CM.g_FINAL_IPSTATES))
     print("\t Nb states = ", len(CM.g_PSTATES))
@@ -197,3 +209,5 @@ if __name__ == "__main__":
     print(f"\t SD length = {np.std(lengths):.3f}")
     print("\t Min length = ", np.min(lengths))
     print("\t Max length = ", np.max(lengths))
+
+    print("\t Best_metrics: ", choice_updater.str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
