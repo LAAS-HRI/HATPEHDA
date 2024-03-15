@@ -322,7 +322,7 @@ def exec_chrono(func, msg):
     s_t = time.time()
     print(''.join([msg, ' ... ']), end='', flush=True)
     r = func()
-    print("Done! - %.2fs" %(time.time()-s_t))
+    print("Done! - %.5fs" %(time.time()-s_t))
     return r
 
 def str_print_metrics_priority(metrics):
