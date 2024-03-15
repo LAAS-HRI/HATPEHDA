@@ -1311,7 +1311,17 @@ def scenario_10():
         def set(self, agent_name, value):
             setattr(self, agent_name, value)
 
-
+def compute_nb_traces(ips=0):
+    nb = 0
+    ps = CM.g_PSTATES[ips]
+    for i, action_pair in enumerate(ps.children):
+        if action_pair.child!=None:
+            child_ips = action_pair.child
+            if child_ips in CM.g_FINAL_IPSTATES:
+                nb += 1
+            else:
+                nb += compute_nb_traces(ips=child_ips)
+    return nb
 
 if __name__ == "__main__":
     sys.setrecursionlimit(100000)
@@ -1332,7 +1342,7 @@ if __name__ == "__main__":
         print("\t Nb leaves = ", len(CM.g_FINAL_IPSTATES))
         print("\t Nb states = ", len(CM.g_PSTATES))
 
-        exec_chrono(choice_updater.compute_traces, "Computing traces")
+        exec_chrono(compute_nb_traces, "Computing traces")
         lengths = np.array(choice_updater.g_lengths)
 
         print("\t Nb traces = ", len(lengths))
