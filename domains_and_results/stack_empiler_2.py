@@ -397,7 +397,7 @@ if __name__ == "__main__":
     
     main()
 
-    # solution_checker.check_solution(sol, goal_condition)
+    solution_checker.new_check_solution(goal_condition)
 
     # ConM.simplify_solution(sol)
 
