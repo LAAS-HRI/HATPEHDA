@@ -575,14 +575,17 @@ if __name__ == "__main__":
 
         elif choice=="7":
             while True:
-                id = input("\tEnter leaf id to render: ")
-                if id in CM.g_FINAL_IPSTATES:
-                    break
+                id = int(input("\tEnter leaf id to render: "))
+                if not int(id) in CM.g_FINAL_IPSTATES:
+                    print("ERROR")
+                    continue
                 show_only_policy = input("\tShow only policy from leaf? ( 1-yes 2-no ): ")
-                if show_only_policy in ["1","2"]:
-                    show_only_policy = show_only_policy=="1"
-                    break
-                render_leaf(id,  show_pstate_id=show_pstate_id, show_only_policy=False, show_pair_rank=show_pair_rank)
+                if not show_only_policy in ["1","2"]:
+                    print("ERROR")
+                    continue
+                show_only_policy = show_only_policy=="1"
+                render_leaf(id,  show_pstate_id=show_pstate_id, show_only_policy=show_only_policy, show_pair_rank=show_pair_rank)
+                break
 
         elif choice=="8":
             while True: 
