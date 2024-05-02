@@ -94,14 +94,14 @@ def update_robot_policy():
         }
 
     if RENDER_GENERATION_STEP:
-        i=0;render_generation_step(filename=f"generation_{i}");i+=1
+        i=0;render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
     while not check_over(to_merge, to_propagate):
         to_merge, to_propagate = propagate(to_merge, to_propagate)
         if RENDER_GENERATION_STEP:
-            render_generation_step(filename=f"generation_{i}");i+=1
+            render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
         to_merge, to_propagate = merge(to_merge, to_propagate)
         if RENDER_GENERATION_STEP:
-            render_generation_step(filename=f"generation_{i}");i+=1
+            render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
 
 def propagate(to_merge, to_propagate):
     """

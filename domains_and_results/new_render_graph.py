@@ -254,7 +254,7 @@ def render_simple():
 
     g.view()
 
-def render_generation_step(filename='render_dot.gv'):
+def render_generation_step(to_merge,to_propagate,filename='render_dot.gv'):
     global g_opti_branch_id
     s = '0.1'
     ar_size = '0.4'
@@ -289,8 +289,9 @@ def render_generation_step(filename='render_dot.gv'):
 
         ps = CM.g_PSTATES[ips]
 
-        # check if last
         color = "white" if ps.best_metrics==None else "red"
+
+        # check if last
         if ps.children==[]:
             g.node(str(ps.id), shape='doublecircle', style="filled", fillcolor=color, label="", xlabel="("+str(ps.id)+")", width="0.2", fixedsize="true")
 
@@ -308,6 +309,7 @@ def render_generation_step(filename='render_dot.gv'):
                     action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name, arrowsize=ar_size)
                     pair_color = "white" if c.best_metrics==None else "red"
+                    pair_color = "chartreuse2" if c.best else pair_color
                     g.node(action_pair_node_name, label='', shape="box", style="filled", fillcolor=pair_color, width="0.1", height="0.1", fixedsize="true")
 
                 # if c.child!=None:
