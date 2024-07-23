@@ -409,6 +409,9 @@ class AAPState:
     def __init__(self, action_pair, ipstate) -> None:
         self.action_pair = action_pair #type: ActionPair
         self.ipstate = ipstate #type: int
+    
+    def __repr__(self) -> str:
+        return f"{self.action_pair.human_action.name}{self.action_pair.human_action.parameters}|{self.action_pair.robot_action.name}{self.action_pair.robot_action.parameters}"
 
 ## Refinement ##
 class Decomposition:
