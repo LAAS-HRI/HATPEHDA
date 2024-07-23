@@ -91,7 +91,7 @@ def render_new_sol(show_pstate_id=False, show_pair_rank=False):
         ps = CM.g_PSTATES[ips]
 
         # check if last
-        if ps.children==[]:
+        if ps.children==[] and ps.id in CM.g_FINAL_IPSTATES:
             g.node(str(ps.id), shape='doublecircle', style="filled", color="black", label="", xlabel="("+str(ps.id)+")", width="0.2", fixedsize="true")
 
         # check if first
