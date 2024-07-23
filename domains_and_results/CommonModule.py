@@ -134,7 +134,7 @@ class Operator:
             print(bcolors.WARNING + "already done!" + bcolors.ENDC)
             return OpType.DONE
         if not self.is_applicable(state, PT):
-            print(bcolors.WARNING + str(PT) + " not applicable!" + bcolors.ENDC)
+            # print(bcolors.WARNING + str(PT) + " not applicable!" + bcolors.ENDC)
             return OpType.NOT_APPLICABLE
 
         # Compute cost
