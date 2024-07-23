@@ -263,19 +263,25 @@ class PState:
 
         # Compare H_Agendas
         if similar:
-            for i,t1 in enumerate(ps1.H_agenda):
-                t2 = ps2.H_agenda[i]
-                if t1.name!=t2.name or t1.parameters!=t2.parameters or t1.agent!=t2.agent:
-                    similar = False
-                    break
+            if len(ps1.H_agenda)!=len(ps2.H_agenda):
+                similar = False
+            else:
+                for i,t1 in enumerate(ps1.H_agenda):
+                    t2 = ps2.H_agenda[i]
+                    if t1.name!=t2.name or t1.parameters!=t2.parameters or t1.agent!=t2.agent:
+                        similar = False
+                        break
 
         # Compare R_Agendas
         if similar:
-            for i,t1 in enumerate(ps1.R_agenda):
-                t2 = ps2.R_agenda[i]
-                if t1.name!=t2.name or t1.parameters!=t2.parameters or t1.agent!=t2.agent:
-                    similar = False
-                    break
+            if len(ps1.R_agenda)!=len(ps2.R_agenda):
+                similar = False
+            else:
+                for i,t1 in enumerate(ps1.R_agenda):
+                    t2 = ps2.R_agenda[i]
+                    if t1.name!=t2.name or t1.parameters!=t2.parameters or t1.agent!=t2.agent:
+                        similar = False
+                        break
 
         # Compare states
         if similar:
