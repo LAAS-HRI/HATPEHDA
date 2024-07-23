@@ -89,7 +89,6 @@ def update_robot_policy():
             "NbDrop" : 0,
             "Annoying": 0,
             "PlaceFirstBar": 0,
-
             "NbLastPassiveH": 0,
         }
 
@@ -102,6 +101,99 @@ def update_robot_policy():
         to_merge, to_propagate = merge(to_merge, to_propagate)
         if RENDER_GENERATION_STEP:
             render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
+
+def compute_new_metrics_generic(new_metrics, parent_ap):
+    new_metrics["TimeTaskCompletion"] += 1
+    if parent_ap.human_action.is_passive() and new_metrics["HumanEffort"]==0:
+        new_metrics["NbLastPassiveH"] += 1
+    new_metrics["TimeEndHumanDuty"] = new_metrics["TimeTaskCompletion"] - new_metrics["NbLastPassiveH"]
+    if not parent_ap.human_action.is_passive():
+        new_metrics["HumanEffort"] += 1
+        new_metrics["GlobalEffort"] += 1
+    if not parent_ap.robot_action.is_passive():
+        new_metrics["GlobalEffort"] += 1
+
+    return new_metrics
+
+def compute_new_metrics_domain_specific(new_metrics, parent_ap, ps_to_propagate):
+    if parent_ap.human_action.is_passive() and ps_to_propagate.state.holding.get('H')!=None:
+        new_metrics["PassiveWhileHolding"] += 1
+    if parent_ap.robot_action.is_passive() and ps_to_propagate.state.holding.get('R')!=None:
+        new_metrics["PassiveWhileHolding"] += 1
+    if parent_ap.robot_action.name=="drop":
+        new_metrics["NbDrop"] += 1
+    if parent_ap.human_action.name=="drop":
+        new_metrics["NbDrop"] += 1
+
+    # Annoying                
+    if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
+        parent_ps = CM.g_PSTATES[parent_ap.parent]
+        for ap in parent_ps.children:
+            if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='y1':
+                new_metrics['Annoying'] += 5
+                break
+        for ap in parent_ps.children:
+            if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='r1':
+                new_metrics['Annoying'] += 3
+                break
+    if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='y1':
+        parent_ps = CM.g_PSTATES[parent_ap.parent]
+        found = False
+        for ap in parent_ps.children:
+            if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='y1':
+                found = True
+                break
+        if found:
+            if parent_ap.robot_action.is_passive():
+                new_metrics['Annoying'] -= 3
+
+    if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
+        parent_ps = CM.g_PSTATES[parent_ap.parent]
+        for ap in parent_ps.children:
+            if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='o1':
+                new_metrics['Annoying'] += 5
+                break
+        for ap in parent_ps.children:
+            if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='s1':
+                new_metrics['Annoying'] += 3
+                break
+    if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='o1':
+        parent_ps = CM.g_PSTATES[parent_ap.parent]
+        found = False
+        for ap in parent_ps.children:
+            if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='o1':
+                found = True
+                break
+        if found:
+            if parent_ap.robot_action.is_passive():
+                new_metrics['Annoying'] -= 3
+
+    if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
+        parent_ps = CM.g_PSTATES[parent_ap.parent]
+        for ap in parent_ps.children:
+            if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='w1':
+                new_metrics['Annoying'] += 5
+                break
+        for ap in parent_ps.children:
+            if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='s1':
+                new_metrics['Annoying'] += 3
+                break
+    if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='w1':
+        parent_ps = CM.g_PSTATES[parent_ap.parent]
+        found = False
+        for ap in parent_ps.children:
+            if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='w1':
+                found = True
+                break
+        if found:
+            if parent_ap.robot_action.is_passive():
+                new_metrics['Annoying'] -= 3
+
+    # if robot places first ping bar
+    if parent_ap.robot_action.name=='place' and parent_ap.robot_action.parameters[0]=='l3' and parent_ap.robot_action.parameters[1]=='p2':
+        new_metrics['PlaceFirstBar'] += 1
+
+    return new_metrics
 
 def propagate(to_merge, to_propagate):
     """
@@ -119,97 +211,12 @@ def propagate(to_merge, to_propagate):
 
         for parent_ap in ps_to_propagate.parents:
             # TODO: ignore IDLE|IDLE pair ?
-            # compute new metrics
+
             new_metrics = deepcopy(ps_to_propagate.best_metrics)
-            # standard
-            new_metrics["TimeTaskCompletion"] += 1
-            if parent_ap.human_action.is_passive() and new_metrics["HumanEffort"]==0:
-                new_metrics["NbLastPassiveH"] += 1
-            new_metrics["TimeEndHumanDuty"] = new_metrics["TimeTaskCompletion"] - new_metrics["NbLastPassiveH"]
-            if not parent_ap.human_action.is_passive():
-                new_metrics["HumanEffort"] += 1
-                new_metrics["GlobalEffort"] += 1
-            if not parent_ap.robot_action.is_passive():
-                new_metrics["GlobalEffort"] += 1
-            # domain specific
-            if parent_ap.human_action.is_passive() and ps_to_propagate.state.holding.get('H')!=None:
-                new_metrics["PassiveWhileHolding"] += 1
-            if parent_ap.robot_action.is_passive() and ps_to_propagate.state.holding.get('R')!=None:
-                new_metrics["PassiveWhileHolding"] += 1
-            if parent_ap.robot_action.name=="drop":
-                new_metrics["NbDrop"] += 1
-            if parent_ap.human_action.name=="drop":
-                new_metrics["NbDrop"] += 1
-
-            # Annoying                
-            if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
-                parent_ps = CM.g_PSTATES[parent_ap.parent]
-                for ap in parent_ps.children:
-                    if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='y1':
-                        new_metrics['Annoying'] += 5
-                        break
-                for ap in parent_ps.children:
-                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='r1':
-                        new_metrics['Annoying'] += 3
-                        break
-            if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='y1':
-                parent_ps = CM.g_PSTATES[parent_ap.parent]
-                found = False
-                for ap in parent_ps.children:
-                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='y1':
-                        found = True
-                        break
-                if found:
-                    if parent_ap.robot_action.is_passive():
-                        new_metrics['Annoying'] -= 3
-
-            if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
-                parent_ps = CM.g_PSTATES[parent_ap.parent]
-                for ap in parent_ps.children:
-                    if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='o1':
-                        new_metrics['Annoying'] += 5
-                        break
-                for ap in parent_ps.children:
-                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='s1':
-                        new_metrics['Annoying'] += 3
-                        break
-            if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='o1':
-                parent_ps = CM.g_PSTATES[parent_ap.parent]
-                found = False
-                for ap in parent_ps.children:
-                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='o1':
-                        found = True
-                        break
-                if found:
-                    if parent_ap.robot_action.is_passive():
-                        new_metrics['Annoying'] -= 3
-
-            if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='w1':
-                parent_ps = CM.g_PSTATES[parent_ap.parent]
-                for ap in parent_ps.children:
-                    if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='w1':
-                        new_metrics['Annoying'] += 5
-                        break
-                for ap in parent_ps.children:
-                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='s1':
-                        new_metrics['Annoying'] += 3
-                        break
-            if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='w1':
-                parent_ps = CM.g_PSTATES[parent_ap.parent]
-                found = False
-                for ap in parent_ps.children:
-                    if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='w1':
-                        found = True
-                        break
-                if found:
-                    if parent_ap.robot_action.is_passive():
-                        new_metrics['Annoying'] -= 3
-
-
-
-            # if robot places first ping bar
-            if parent_ap.robot_action.name=='place' and parent_ap.robot_action.parameters[0]=='l3' and parent_ap.robot_action.parameters[1]=='p2':
-                new_metrics['PlaceFirstBar'] += 1
+            
+            new_metrics = compute_new_metrics_generic(new_metrics, parent_ap)
+            new_metrics = compute_new_metrics_domain_specific(new_metrics, parent_ap, ps_to_propagate)
+            
 
             # store in action_pair
             parent_ap.best_metrics = new_metrics
@@ -338,72 +345,46 @@ def str_print_metrics_priority(metrics):
 
     return s
 
+def generate_policy(policy_name):
+    ConM.setPolicyName(policy_name)
+    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Nb states = {len(CM.g_PSTATES)}")
+    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
+    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
+    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+
+def compute_number_of_traces():
+    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Nb states = {len(CM.g_PSTATES)}")
+    exec_chrono(compute_traces, "Computing nb traces")
+
+    lengths = np.array(g_lengths)
+    print("\t nb=", len(lengths))
+    print("\t mean=", np.mean(lengths))
+    print("\t std=", np.std(lengths))
+    print("\t min=", np.min(lengths))
+    print("\t max=", np.max(lengths))
 
 def main():
     global g_domain_name
     sys.setrecursionlimit(100000)
 
+    ##############################################
+
+    g_domain_name, pstates, final_pstates = load_solution()
+    CM.g_PSTATES = pstates
+    CM.g_FINAL_IPSTATES = final_pstates
 
     ##############################################
 
-    ConM.setPolicyName('task_end_early')
-    g_domain_name, pstates, final_pstates = load_solution()
-    CM.g_PSTATES = pstates
-    CM.g_FINAL_IPSTATES = final_pstates
-    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    print(f"Nb states = {len(CM.g_PSTATES)}")
-    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
-    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
-    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+    generate_policy('task_end_early')
 
-    ConM.setPolicyName('human_min_work')
-    g_domain_name, pstates, final_pstates = load_solution()
-    CM.g_PSTATES = pstates
-    CM.g_FINAL_IPSTATES = final_pstates
-    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    print(f"Nb states = {len(CM.g_PSTATES)}")
-    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
-    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
-    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+    ##############################################
 
-    ConM.setPolicyName('fake_human_free_early')
-    g_domain_name, pstates, final_pstates = load_solution()
-    CM.g_PSTATES = pstates
-    CM.g_FINAL_IPSTATES = final_pstates
-    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    print(f"Nb states = {len(CM.g_PSTATES)}")
-    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
-    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
-    dump(f'policy_{ConM.G_POLICY_NAME}.p')
-
-    ConM.setPolicyName('real_human_free_early')
-    g_domain_name, pstates, final_pstates = load_solution()
-    CM.g_PSTATES = pstates
-    CM.g_FINAL_IPSTATES = final_pstates
-    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    print(f"Nb states = {len(CM.g_PSTATES)}")
-    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
-    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
-    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+    # compute_number_of_traces()
 
     ##############################################
     
-    # g_domain_name, pstates, final_pstates = load_solution()
-    # CM.g_PSTATES = pstates
-    # CM.g_FINAL_IPSTATES = final_pstates
-    # print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    # print(f"Nb states = {len(CM.g_PSTATES)}")
-    # exec_chrono(compute_traces, "Computing nb traces")
-
-    # lengths = np.array(g_lengths)
-    # print("\t nb=", len(lengths))
-    # print("\t mean=", np.mean(lengths))
-    # print("\t std=", np.std(lengths))
-    # print("\t min=", np.min(lengths))
-    # print("\t max=", np.max(lengths))
-
-    ##############################################
-
 
     # TODO: like in new render, remove pairs where best_compliant=False, save only the policy
     #  implies that has to load original sol file to update policy
