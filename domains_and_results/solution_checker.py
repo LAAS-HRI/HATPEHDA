@@ -24,6 +24,11 @@ def new_check_solution(goal_condition_in):
     print("Checking solution... ", end="", flush=True)
     s_t = time.time()
 
+    if len(CM.g_FINAL_IPSTATES)==0:
+        print("Done! - %.5fs" %(time.time()-s_t))
+        print(f"ERROR: No leaf!")
+        return False
+
     for ips in CM.g_FINAL_IPSTATES:
         s = CM.g_PSTATES[ips]
         if (not goal_condition_in(s.state)) or inactivity_deadlock(s):
@@ -40,5 +45,9 @@ def new_check_solution(goal_condition_in):
     else:
         print("\tAll clear !")
         return True
+    
+if __name__ == "__main__":
+    from new_cart import goal_condition
+    new_check_solution(goal_condition_in=goal_condition)
 
 
