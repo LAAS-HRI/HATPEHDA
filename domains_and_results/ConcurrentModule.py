@@ -6,12 +6,11 @@ import dill
 import logging as lg
 import logging.config
 import sys
-from progress.bar import IncrementalBar
 from statistics import mean
 import numpy as np
 import time
 
-
+from progress.bar import IncrementalBarWithLeaf
 
 logging.config.fileConfig(CM.path + 'log.conf')
 
@@ -298,10 +297,12 @@ def setPolicyName(policy_name):
 def explore():
 
     ipstates_to_explore = [0]
-    bar = IncrementalBar("Exploring", max=len(ipstates_to_explore), width=60, suffix='%(index)d/%(max)d - %(elapsed_td)s')
+    bar = IncrementalBarWithLeaf("Exploring", max=len(ipstates_to_explore), width=60, suffix=" - %(elapsed_td)s - %(index)d/%(max)d")
+    bar.set_n_leaf(0)
     while ipstates_to_explore!=[]:
         ipstates_to_explore = pstate_exploration(ipstates_to_explore)
         bar.max = max(bar.max, len(ipstates_to_explore))
+        bar.set_n_leaf(len(CM.g_FINAL_IPSTATES))
         bar.goto(len(ipstates_to_explore))
     bar.finish()
 
