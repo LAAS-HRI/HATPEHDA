@@ -526,14 +526,19 @@ def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False, show_pair
 
 if __name__ == "__main__":
 
-    CM.g_domain_name, sol_tee, CM.g_FINAL_IPSTATES = load("policy_task_end_early.p")
-    sol_hmw = load("policy_human_min_work.p")[1]
-    sol_fhfe = load("policy_fake_human_free_early.p")[1]
-    sol_hfe = load("policy_real_human_free_early.p")[1]
-    CM.g_PSTATES = sol_tee
+    # CM.g_domain_name, sol_tee, CM.g_FINAL_IPSTATES = load("policy_task_end_early.p")
+    # sol_hmw = load("policy_human_min_work.p")[1]
+    # sol_fhfe = load("policy_fake_human_free_early.p")[1]
+    # sol_hfe = load("policy_real_human_free_early.p")[1]
+    # CM.g_PSTATES = sol_tee
+
+    CM.g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES = load("search_space.p")
+
+
     print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
     print(f"Nb states = {len(CM.g_PSTATES)}")
-    current_policy = "task_end_early"
+    current_policy = "none"
+    # current_policy = "task_end_early"
 
     show_pstate_id = False
     show_pair_rank = False

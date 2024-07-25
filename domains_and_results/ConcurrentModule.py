@@ -530,6 +530,40 @@ def rec_compute_nb_leaves(current_ipstate, final_leaves):
         elif not action_pair.is_passive():
             rec_compute_nb_leaves(action_pair.child, final_leaves)
 
+def compute_non_final_leaves():
+    non_final_leaves = [] # type: List[CM.PState]
+    for s in CM.g_PSTATES.values():
+        if len(s.children)==1 and s.children[0].is_passive() and not s.children[0].is_final():
+            if not s in CM.g_FINAL_IPSTATES:
+                non_final_leaves.append(s.id)
+
+    return non_final_leaves
+
+def prune_deadends():
+    non_final_leaves = compute_non_final_leaves()
+
+    while len(non_final_leaves):
+        leaf_to_remove = CM.g_PSTATES[non_final_leaves.pop()]
+
+        for parent_pair in leaf_to_remove.parents:
+
+            parent_state = CM.g_PSTATES[parent_pair.parent]
+
+            # Disconnect pair from parent_state
+            parent_state.children.remove(parent_pair)
+
+            # If parent_state becomes a leaf, then add it to list
+            if len(parent_state.children)==1 and parent_state.children[0].is_passive():
+                non_final_leaves.append(parent_state.id)
+
+
+            # delete pair and leaf_to_remove
+            # leaf_to_remove.parents.remove(parent_pair)
+            parent_pair.parent = None
+            parent_pair.child = None
+
+        CM.g_PSTATES.pop(leaf_to_remove.id)
+            
 
 ################
 ## REFINEMENT ##
