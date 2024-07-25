@@ -585,7 +585,7 @@ def getAPStates(agent, ipstate) -> List[CM.APState]:
                 new_state, cost, shared_resource = result
                 action = CM.Action.cast_PT2A(dec.PT, cost, shared_resource)
 
-        new_agenda = dec.subtasks[1:] + dec.new_agenda
+        new_agenda = dec.new_agenda + dec.subtasks[1:]
 
         # new PState
         new_pstate = CM.PState()
