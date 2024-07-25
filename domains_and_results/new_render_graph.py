@@ -236,7 +236,7 @@ def render_simple():
             if ps.id==0:
                 g.node(str(ps.id), shape='circle', style='filled', color='black', label='', width="0.2", fixedsize="true")
             else:
-                g.node(str(ps.id), shape='circle', label='', width="0.15", fixedsize="true")
+                g.node(str(ps.id), shape='circle', style='filled', fillcolor='white', label='', width="0.15", fixedsize="true")
 
             for c in ps.children:
 
