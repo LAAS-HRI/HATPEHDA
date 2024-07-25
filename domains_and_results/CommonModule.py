@@ -326,6 +326,9 @@ class PState:
         cp.parents = self.parents
         cp.children = self.children
 
+    def __repr__(self) -> str:
+        return f"(ID:{self.id})"
+
 
 g_PSTATES = {0: PState()} 
 g_FINAL_IPSTATES = []
