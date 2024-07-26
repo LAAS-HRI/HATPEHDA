@@ -70,7 +70,7 @@ def compute_traces(ips=0, current_length=0):
 
 ##################################
 
-from new_render_graph import render_generation_step
+from render import render_generation_step
 RENDER_GENERATION_STEP = False
 
 def update_robot_policy():
@@ -85,11 +85,17 @@ def update_robot_policy():
             "TimeEndHumanDuty" : 0,
             "HumanEffort" : 0,
             "GlobalEffort" : 0,
-            "PassiveWhileHolding" : 0,
-            "NbDrop" : 0,
-            "Annoying": 0,
-            "PlaceFirstBar": 0,
-            "NbLastPassiveH": 0,
+            "NbLastPassiveH": 0, # temp var
+
+            # Cart
+            "AxelsFirst": 0,
+            "BodyFirst": 0,
+
+            # Stack
+            # "PassiveWhileHolding" : 0,
+            # "NbDrop" : 0,
+            # "Annoying": 0,
+            # "PlaceFirstBar": 0,
         }
 
     if RENDER_GENERATION_STEP:
@@ -115,7 +121,30 @@ def compute_new_metrics_generic(new_metrics, parent_ap):
 
     return new_metrics
 
-def compute_new_metrics_domain_specific(new_metrics, parent_ap, ps_to_propagate):
+def compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate):
+    # AxelsFirst
+    if parent_ap.robot_action.name=="useTool" and ps_to_propagate.state.holding['R']=='rivet':
+        if ps_to_propagate.state.link_axel1_floor and ps_to_propagate.state.link_axel2_floor:
+            if  not ps_to_propagate.state.link_body_floor\
+            and not ps_to_propagate.state.link_wheel1_axel1\
+            and not ps_to_propagate.state.link_wheel2_axel1\
+            and not ps_to_propagate.state.link_wheel3_axel2\
+            and not ps_to_propagate.state.link_wheel4_axel2:
+                new_metrics['AxelsFirst'] += 1
+
+    # BodyFirst
+    if parent_ap.robot_action.name=="useTool" and ps_to_propagate.state.holding['R']=='welder':
+        if  ps_to_propagate.state.link_body_floor:
+            if  not ps_to_propagate.state.link_axel1_floor\
+            and not ps_to_propagate.state.link_axel2_floor\
+            and not ps_to_propagate.state.link_wheel1_axel1\
+            and not ps_to_propagate.state.link_wheel2_axel1\
+            and not ps_to_propagate.state.link_wheel3_axel2\
+            and not ps_to_propagate.state.link_wheel4_axel2:
+                new_metrics['BodyFirst'] += 1
+    return new_metrics
+
+def compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate):
     if parent_ap.human_action.is_passive() and ps_to_propagate.state.holding.get('H')!=None:
         new_metrics["PassiveWhileHolding"] += 1
     if parent_ap.robot_action.is_passive() and ps_to_propagate.state.holding.get('R')!=None:
@@ -215,7 +244,8 @@ def propagate(to_merge, to_propagate):
             new_metrics = deepcopy(ps_to_propagate.best_metrics)
             
             new_metrics = compute_new_metrics_generic(new_metrics, parent_ap)
-            new_metrics = compute_new_metrics_domain_specific(new_metrics, parent_ap, ps_to_propagate)
+            new_metrics = compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate)
+            # new_metrics = compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate)
             
 
             # store in action_pair
@@ -371,13 +401,11 @@ def main():
 
     ##############################################
 
-    g_domain_name, pstates, final_pstates = load_solution()
-    CM.g_PSTATES = pstates
-    CM.g_FINAL_IPSTATES = final_pstates
+    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES = load_solution()
 
     ##############################################
 
-    generate_policy('task_end_early')
+    generate_policy('cart_pref1')
 
     ##############################################
 

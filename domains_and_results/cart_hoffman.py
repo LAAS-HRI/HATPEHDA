@@ -45,9 +45,9 @@ def o_putDownPart_pre(state, agent):
         return False
     return True
 def o_putDownPart_effects(state, agent):
-    if state.parts_bench == []: # First part
+    if len(state.parts_bench)==0: # First part
         state.cart[state.holding[agent]].attached = True
-    state.parts_bench.append(state.holding[agent])
+    state.parts_bench = state.parts_bench.union({state.holding[agent]})
     state.holding[agent] = None
 o_putDownPart = CM.Operator('putDownPart', pre_cond=o_putDownPart_pre, effects=o_putDownPart_effects)
 
@@ -148,11 +148,9 @@ def m_Build_H_done(state, agent):
 def m_Build_H_multi_decomp(state, agent):
     multi_subtasks = []
 
-    
-
     # Identify remains parts to bring to workbench
 
-    if state.parts_bench==[]:
+    if len(state.parts_bench)==0:
         parts = ['body', 'floor', 'axel1', 'axel2', 'wheel1', 'wheel2', 'wheel3', 'wheel4']
     else:
         parts = get_connections(state)
@@ -179,7 +177,7 @@ def m_Build_R_pre(state, agent):
     #     if parts==[]:
     #         return False
         
-    if state.holding[agent]==None and identify_required_tools(state)==None:
+    if state.holding[agent]==None and identify_required_tools(state)==[]:
         return False
     return True
 def m_Build_R_done(state, agent):
@@ -197,21 +195,12 @@ def m_Build_R_multi_decomp(state, agent):
     multi_subtasks = []
 
     if state.holding[agent]==None:
-        if  state.link_body_floor\
-        and state.link_axel1_floor\
-        and state.link_axel2_floor\
-        and state.link_wheel1_axel1\
-        and state.link_wheel2_axel1\
-        and state.link_wheel3_axel2\
-        and state.link_wheel4_axel2:
-            return [[]]
-
-    if state.holding[agent]==None:
-        tool = identify_required_tools(state)
-        multi_subtasks.append([ ('move', tool), ('pickUp', tool), ('move', 'workbench'), ('Build',) ])
+        tools = identify_required_tools(state)
+        for tool in tools:
+            multi_subtasks.append([ ('move', tool), ('pickUp', tool), ('move', 'workbench'), ('Build',) ])
     else:
-        multi_subtasks.append([ ('useTool',), ('Build',) ])
-        multi_subtasks.append([ ('move', state.holding[agent]), ('putDownTool',), ('Build',) ])
+        multi_subtasks.append([ ('useTool',), ('move', state.holding[agent]), ('putDownTool',), ('Build',) ])
+        multi_subtasks.append([ ('useTool',), ('useTool',), ('move', state.holding[agent]), ('putDownTool',), ('Build',) ])
 
     if multi_subtasks==[]:
         raise Exception("problem..")
@@ -241,26 +230,82 @@ def identify_required_tools(state):
 
     connections = get_connections(state)
 
-    tool = None
+    tools = []
 
-    if 'body' in connections:
-        tool = 'welder'
-    elif 'floor' in connections:
-        tool = 'welder'
-    elif 'axel1' in connections:
-        tool = 'rivet'
-    elif 'axel2' in connections:
-        tool = 'rivet'
-    elif 'wheel1' in connections:
-        tool = 'wrench1'
-    elif 'wheel2' in connections:
-        tool = 'wrench1'
-    elif 'wheel3' in connections:
-        tool = 'wrench2'
-    elif 'wheel4' in connections:
-        tool = 'wrench2'
+    if state.loc['H']!='workbench':
+        part = state.loc['H']
+        if part in connections:
+            if part=='body':
+                tools = ['welder']
+            
+            if part=='floor':
+                if 'body' in state.parts_bench:
+                    tools = ['welder']
+                if 'axel1' in state.parts_bench:
+                    tools = ['rivet']
+                if 'axel2' in state.parts_bench:
+                    tools = ['rivet']
+            
+            if part=='axel1':
+                if 'floor' in state.parts_bench:
+                    tools = ['rivet']
+                if 'wheel1' in state.parts_bench:
+                    tools = ['wrench1']
+                if 'wheel2' in state.parts_bench:
+                    tools = ['wrench1']
+            
+            if part=='axel2':
+                if 'floor' in state.parts_bench:
+                    tools = ['rivet']
+                if 'wheel3' in state.parts_bench:
+                    tools = ['wrench2']
+                if 'wheel4' in state.parts_bench:
+                    tools = ['wrench2']
+            
+            if part=='wheel1':
+                tools = ['wrench1']
+            
+            if part=='wheel2':
+                tools = ['wrench1']
+            
+            if part=='wheel3':
+                tools = ['wrench2']
+            
+            if part=='wheel4':
+                tools = ['wrench2']
 
-    return tool
+    # if 'body' in connections:
+    #     if not 'welder' in tools:
+    #         tools.append('welder')
+    # if 'floor' in connections:
+    #     if not 'welder' in tools:
+    #         tools.append('welder')
+    #     if not 'rivet' in tools:
+    #         tools.append('rivet')
+    # if 'axel1' in connections:
+    #     if not 'wrench1' in tools:
+    #         tools.append('wrench1')
+    #     if not 'rivet' in tools:
+    #         tools.append('rivet')
+    # if 'axel2' in connections:
+    #     if not 'wrench2' in tools:
+    #         tools.append('wrench2')
+    #     if not 'rivet' in tools:
+    #         tools.append('rivet')
+    # if 'wheel1' in connections:
+    #     if not 'wrench1' in tools:
+    #         tools.append('wrench1')
+    # if 'wheel2' in connections:
+    #     if not 'wrench1' in tools:
+    #         tools.append('wrench1')
+    # if 'wheel3' in connections:
+    #     if not 'wrench2' in tools:
+    #         tools.append('wrench2')
+    # elif 'wheel4' in connections:
+    #     if not 'wrench2' in tools:
+    #         tools.append('wrench2')
+
+    return tools
 
 def already_two_comp(state):
     if len(state.parts_bench)<2:
@@ -362,7 +407,7 @@ def initDomain():
     new_init_state.create_dyn_fluent('loc', {'R':'workbench', 'H':'workbench'}) 
     new_init_state.create_dyn_fluent('holding', {'R':None, 'H':None})
 
-    new_init_state.create_dyn_fluent('parts_bench', [])
+    new_init_state.create_dyn_fluent('parts_bench', set())
     
     new_init_state.create_dyn_fluent('cart', {})
     new_init_state.cart['body'] = Part('body', ['floor'])

@@ -889,6 +889,28 @@ def sorting_branches(final_leaves: List[Step]): # only for robot
 
 def get_exec_prefs():
     prefs = {
+        "cart_pref1": [
+            ("AxelsFirst",              True),
+            ("TimeEndHumanDuty",        False),
+            ("HumanEffort",             False),
+            ("GlobalEffort",            False),
+            ("TimeTaskCompletion",      False),
+        ],
+        "cart_esti11": [
+            ("BodyFirst",               True),
+            ("TimeTaskCompletion",      False),
+            ("TimeEndHumanDuty",        False),
+            ("HumanEffort",             False),
+            ("GlobalEffort",            False),
+        ],
+        "cart_esti12": [
+            ("TimeTaskCompletion",      False),
+            ("TimeEndHumanDuty",        False),
+            ("HumanEffort",             False),
+            ("GlobalEffort",            False),
+            ("TimeTaskCompletion",      False),
+        ],
+
         "human_min_work": [
             ("Annoying",                True),
             ("HumanEffort",             False),

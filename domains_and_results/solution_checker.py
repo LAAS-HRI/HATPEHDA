@@ -46,8 +46,3 @@ def new_check_solution(goal_condition_in):
         print("\tAll clear !")
         return True
     
-if __name__ == "__main__":
-    from new_cart import goal_condition
-    new_check_solution(goal_condition_in=goal_condition)
-
-
