@@ -12,11 +12,11 @@ def load(filename):
     print(f"Loading solution '{filename}' ... ", end="", flush=True)
     s_t = time.time()
 
-    domain_name, pstates, final_pstates = dill.load(open(CM.path + filename, "rb"))
+    domain_name, pstates, final_pstates, back_edges = dill.load(open(CM.path + filename, "rb"))
 
     print("Loaded! - %.2fs" %(time.time()-s_t))
 
-    return domain_name, pstates, final_pstates
+    return domain_name, pstates, final_pstates, back_edges
 
 def load_solution():
     """
@@ -649,10 +649,11 @@ if __name__ == "__main__":
         raise Exception("Missing filename...")
     filename = sys.argv[1]
 
-    CM.g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES = load(filename)
+    CM.g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load(filename)
 
     print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
     print(f"Nb states = {len(CM.g_PSTATES)}")
+    print(f"Nb backedges = {len(CM.g_BACK_EDGES)}")
 
     show_pstate_id = False
     show_pair_rank = False

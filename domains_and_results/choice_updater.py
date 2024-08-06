@@ -19,11 +19,11 @@ def load(filename):
     print(f"Loading solution '{filename}' ... ", end="", flush=True)
     s_t = time.time()
 
-    domain_name, pstates, final_pstates = dill.load(open(CM.path + filename, "rb"))
+    domain_name, pstates, final_pstates, back_edges = dill.load(open(CM.path + filename, "rb"))
 
     print("Loaded! - %.2fs" %(time.time()-s_t))
 
-    return domain_name, pstates, final_pstates
+    return domain_name, pstates, final_pstates, back_edges
 
 def load_solution():
     """
@@ -401,7 +401,7 @@ def main():
 
     ##############################################
 
-    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES = load_solution()
+    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load_solution()
 
     ##############################################
 
