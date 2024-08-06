@@ -296,6 +296,10 @@ def setPolicyName(policy_name):
 #############
 def explore():
 
+    CM.g_FINAL_IPSTATES = []
+    CM.g_PSTATES = {0: CM.g_PSTATES[0]}
+    CM.g_BACK_EDGES = []
+
     ipstates_to_explore = [0]
     bar = IncrementalBarWithLeaf("Exploring", max=len(ipstates_to_explore), width=60, suffix=" - %(elapsed_td)s - %(index)d/%(max)d")
     bar.set_n_leaf(0)
@@ -305,6 +309,16 @@ def explore():
         bar.set_n_leaf(len(CM.g_FINAL_IPSTATES))
         bar.goto(len(ipstates_to_explore))
     bar.finish()
+
+    # Remove useless PStates
+    ips_to_remove = []
+    for ips in CM.g_PSTATES:
+        ps = CM.g_PSTATES[ips]
+        if ps.children==[] and ps.parents==[]:
+            ips_to_remove.append(ips)
+    print(f"Useless PStates to remove: {len(ips_to_remove)}")
+    for ips in ips_to_remove:
+        CM.g_PSTATES.pop(ips)
 
 DEBUG_MSG = False
 def pstate_exploration(ipstates_to_explore):
@@ -458,31 +472,43 @@ def extract_pstates_non_double_pass(aapstates: List[CM.AAPState]):
     return ipstates
 
 
-g_checked_ipstates = set()
+g_checked_ipstates = {0}
 def merge(new_ipstates: List[int], ipstates_to_explore):
     global g_checked_ipstates
 
     new_ipstates_to_explore = set()
 
     for new_ips in new_ipstates:
-        iparents = rec_extract_parent_pstates(new_ips)
 
         similar_found = False
         for ips in g_checked_ipstates:
-            if not ips in iparents:
-                if CM.PState.are_similar(ips, new_ips):
-                    if DEBUG_MSG:
-                        print(f"Merge found ({new_ips}) -> ({ips})")  
+            if CM.PState.are_similar(ips, new_ips):
+                if DEBUG_MSG:
+                    print(f"Merge found ({new_ips}) -> ({ips})")  
 
-                    similar_found = True
-                    # update children/parents
-                    action_pair = CM.g_PSTATES[new_ips].parents[0] # type: ActionPair
-                    action_pair.child = ips
+                similar_found = True
+
+                # update pair child
+                action_pair = CM.g_PSTATES[new_ips].parents[0] # type: ActionPair
+                action_pair.child = ips
+
+                # check if cycle
+                iparents = rec_extract_parent_pstates(new_ips)
+                if ips in iparents:
+                    # store in back edges
+                    CM.g_BACK_EDGES.append(action_pair)
+                    print("back edge")
+                    # remove from graph
+                    CM.g_PSTATES[action_pair.parent].children.remove(action_pair)
+                else:
+                    # not a cycle, update similar state to connect pair
                     ps = CM.g_PSTATES[ips]
                     ps.parents.append(action_pair)
-                    # delete new_ips from g_PSTATES
-                    CM.g_PSTATES.pop(new_ips)
-                    break
+                
+                # delete new_ips from g_PSTATES
+                CM.g_PSTATES.pop(new_ips)
+                break
+
         if not similar_found:
             g_checked_ipstates = g_checked_ipstates.union({new_ips})
             new_ipstates_to_explore = new_ipstates_to_explore.union({new_ips})
@@ -1057,7 +1083,7 @@ def dumping_solution():
 
     file_name = "search_space.p"
 
-    dill.dump( (CM.g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES) , open(CM.path + file_name, "wb"))
+    dill.dump( (CM.g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES) , open(CM.path + file_name, "wb"))
     lg.info("Solution dumped! - %.2fs" %(time.time()-s_t))
 
     f = open(CM.path + "dom_name.p", "w")

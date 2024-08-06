@@ -375,30 +375,19 @@ def initDomain():
 def main():
     sys.setrecursionlimit(100000)
     initDomain()
-    # pr = cProfile.Profile()
-    # pr.enable()
 
     s_t = time.time()
     ConM.explore()
     print("time to explore: %.2fs" %(time.time()-s_t))
-    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    print(f"Nb states = {len(CM.g_PSTATES)}")
-    
-    # pr.disable()
-    # stats = pstats.Stats(pr).sort_stats("tottime")
-    # stats.dump_stats(filename="profiling.prof")
-
-
-if __name__ == "__main__":
-
-    tt_explore = False
-    if len(sys.argv)>1 and sys.argv[1]=="tt":
-        tt_explore = True
-    
-    main()
 
     solution_checker.new_check_solution(goal_condition)
-
-    # ConM.simplify_solution(sol)
+    print(f"Back edges: ", CM.g_BACK_EDGES)
+    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Nb states before pruning = {len(CM.g_PSTATES)}")
+    ConM.prune_deadends()
+    print(f"Nb states after pruning = {len(CM.g_PSTATES)}")
 
     ConM.dumping_solution()
+
+if __name__ == "__main__":
+    main()

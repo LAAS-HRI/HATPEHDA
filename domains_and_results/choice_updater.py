@@ -405,7 +405,9 @@ def main():
 
     ##############################################
 
-    generate_policy('cart_pref1')
+    # generate_policy('cart_pref1')
+    # generate_policy('cart_esti11')
+    generate_policy('cart_esti12')
 
     ##############################################
 
@@ -413,9 +415,6 @@ def main():
 
     ##############################################
     
-
-    # TODO: like in new render, remove pairs where best_compliant=False, save only the policy
-    #  implies that has to load original sol file to update policy
     
 if __name__ == "__main__":
     main()

@@ -332,6 +332,7 @@ class PState:
 
 g_PSTATES = {0: PState()} 
 g_FINAL_IPSTATES = []
+g_BACK_EDGES = []
 
 def is_instance_userdefined_and_newclass(inst):
     cls = inst.__class__
