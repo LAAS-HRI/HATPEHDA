@@ -808,65 +808,6 @@ def refine_method(task_to_refine, state, new_agenda):
 #############
 ## METRICS ##
 #############
-def compute_metrics(final_leaves: List[Step]):
-    for end_step in final_leaves:
-    # for leaf_pair in leaf_pairs:
-        leaf_pair = end_step.get_pairs()[0]
-        current_metrics = {
-            "TimeEndHumanDuty" : end_step.depth-1,
-            "HumanEffort" : 0.0,
-            "TimeTaskCompletion" : end_step.depth-1,
-            "GlobalEffort" : 0.0,
-            "RiskConflict" : 0.0,
-            "PassiveWhileHolding" : 0.0,
-            "NbDrop" : 0.0,
-            "RPlaceWhiteRight": 0.0,
-        }
-        human_acted = False
-        pair = leaf_pair.previous #type: ActionPair # Pair before the double IDLE
-        while pair.previous!=None:
-            # update metrics
-            if pair.human_action.is_passive():
-                if not human_acted:
-                    current_metrics["TimeEndHumanDuty"] -= 1
-            else:
-                human_acted = True
-                current_metrics["HumanEffort"] += 1
-                current_metrics["GlobalEffort"] += 1
-            if not pair.robot_action.is_passive():
-                current_metrics["GlobalEffort"] += 1
-            
-            is_cra_or_skip = False
-            if pair.robot_action.name == "SKIP":
-                is_cra_or_skip = True
-            else:
-                CRAs = pair.in_human_option.in_step.CRA
-                if len(CRAs)>0:
-                    for CRA in CRAs:
-                        if CM.Action.are_similar(pair.robot_action, CRA):
-                            is_cra_or_skip=True
-                            break
-            if not is_cra_or_skip:
-                current_metrics["RiskConflict"] += 1
-            
-            if pair.end_agents.state.holding.get('R')!=None and pair.robot_action.is_passive():
-                current_metrics["PassiveWhileHolding"] += 1
-            if pair.end_agents.state.holding.get('H')!=None and pair.human_action.is_passive():
-                current_metrics["PassiveWhileHolding"] += 1
-
-            if pair.robot_action.name == "drop":
-                current_metrics['NbDrop'] += 1
-            if pair.human_action.name == "drop":
-                current_metrics['NbDrop'] += 1
-
-            if pair.robot_action.name == "place" and pair.robot_action.parameters == ('l5', 'w1'):
-                current_metrics['RPlaceWhiteRight'] += 1
-
-            # progress
-            pair = pair.previous
-        # set metrics
-        leaf_pair.branch_metrics = current_metrics
-
 def get_str_ranked_branches(ranked_leaves):
     lines = []
     i=0
@@ -921,6 +862,7 @@ def get_exec_prefs():
             ("HumanEffort",             False),
             ("GlobalEffort",            False),
             ("TimeTaskCompletion",      False),
+            ("PassiveWhileHolding",     False),
         ],
         "cart_esti11": [
             ("BodyFirst",               True),
@@ -928,6 +870,7 @@ def get_exec_prefs():
             ("TimeEndHumanDuty",        False),
             ("HumanEffort",             False),
             ("GlobalEffort",            False),
+            ("PassiveWhileHolding",     False),
         ],
         "cart_esti12": [
             ("TimeTaskCompletion",      False),
@@ -935,6 +878,7 @@ def get_exec_prefs():
             ("HumanEffort",             False),
             ("GlobalEffort",            False),
             ("TimeTaskCompletion",      False),
+            ("PassiveWhileHolding",     False),
         ],
 
         "human_min_work": [

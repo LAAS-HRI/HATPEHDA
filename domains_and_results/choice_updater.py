@@ -90,6 +90,7 @@ def update_robot_policy():
             # Cart
             "AxelsFirst": 0,
             "BodyFirst": 0,
+            "PassiveWhileHolding" : 0,
 
             # Stack
             # "PassiveWhileHolding" : 0,
@@ -142,6 +143,13 @@ def compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propa
             and not ps_to_propagate.state.link_wheel3_axel2\
             and not ps_to_propagate.state.link_wheel4_axel2:
                 new_metrics['BodyFirst'] += 1
+
+    # PassiveWhileHolding
+    if parent_ap.human_action.is_passive() and ps_to_propagate.state.holding.get('H')!=None:
+        new_metrics["PassiveWhileHolding"] += 1
+    if parent_ap.robot_action.is_passive() and ps_to_propagate.state.holding.get('R')!=None:
+        new_metrics["PassiveWhileHolding"] += 1
+
     return new_metrics
 
 def compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate):
@@ -406,8 +414,8 @@ def main():
     ##############################################
 
     # generate_policy('cart_pref1')
-    # generate_policy('cart_esti11')
-    generate_policy('cart_esti12')
+    generate_policy('cart_esti11')
+    # generate_policy('cart_esti12')
 
     ##############################################
 
