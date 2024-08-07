@@ -981,6 +981,7 @@ def compare_metrics(m1, m2, criteria):
         return True
     
     for m,maxi in criteria:
+        # maxi = not maxi
         if m1[m] < m2[m]:
             return not maxi
         elif m1[m] > m2[m]:

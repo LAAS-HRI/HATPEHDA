@@ -93,10 +93,10 @@ def update_robot_policy():
             "PassiveWhileHolding" : 0,
 
             # Stack
-            # "PassiveWhileHolding" : 0,
-            # "NbDrop" : 0,
-            # "Annoying": 0,
-            # "PlaceFirstBar": 0,
+            "PassiveWhileHolding" : 0,
+            "NbDrop" : 0,
+            "Annoying": 0,
+            "PlaceFirstBar": 0,
         }
 
     if RENDER_GENERATION_STEP:
@@ -252,8 +252,8 @@ def propagate(to_merge, to_propagate):
             new_metrics = deepcopy(ps_to_propagate.best_metrics)
             
             new_metrics = compute_new_metrics_generic(new_metrics, parent_ap)
-            new_metrics = compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate)
-            # new_metrics = compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate)
+            # new_metrics = compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate)
+            new_metrics = compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate)
             
 
             # store in action_pair
@@ -398,8 +398,8 @@ def compute_number_of_traces():
 
     lengths = np.array(g_lengths)
     print("\t nb=", len(lengths))
-    print("\t mean=", np.mean(lengths))
-    print("\t std=", np.std(lengths))
+    print("\t mean= %.2f" %np.mean(lengths))
+    print("\t std= %.2f" %np.std(lengths))
     print("\t min=", np.min(lengths))
     print("\t max=", np.max(lengths))
 
@@ -413,9 +413,17 @@ def main():
 
     ##############################################
 
+    # Cart
     # generate_policy('cart_pref1')
-    generate_policy('cart_esti11')
+    # generate_policy('cart_esti11')
     # generate_policy('cart_esti12')
+
+    # Stack
+    generate_policy('task_end_early')
+    # generate_policy('human_min_work')
+    # generate_policy('fake_human_free_early')
+    # generate_policy('real_human_free_early')
+
 
     ##############################################
 
