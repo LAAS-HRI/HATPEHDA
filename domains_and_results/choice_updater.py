@@ -41,17 +41,9 @@ def dump(filename):
     print(f"Dumping policy '{filename}' ...  ", end="", flush=True)
     s_t = time.time()
 
-    dill.dump((g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES), open(CM.path + filename, "wb"))
+    dill.dump((g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES), open(CM.path + filename, "wb"))
 
     print("Dumped! - %.2fs" %(time.time()-s_t))
-
-def dump_solution():
-    filename = "policy.p"
-    if len(sys.argv)>1:
-        filename = sys.argv[1][:-2] + "_policy.p"
-
-    dump(filename)
-
 
 ##################################################################################
 
@@ -73,41 +65,80 @@ def compute_traces(ips=0, current_length=0):
 from render import render_generation_step
 RENDER_GENERATION_STEP = False
 
-def update_robot_policy():
 
+
+def generate_policy(policy_name):
+    global g_domain_name
+    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load_solution()
+
+    CM.g_use_robot_metrics = True
+
+    ConM.setPolicyName(policy_name)
+    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
+    print(f"Nb states = {len(CM.g_PSTATES)}")
+    exec_chrono(update_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
+    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].get_best_metrics()))
+    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+
+def add_human_policy(policy_name_to_load, policy_name_to_add):
+    global g_domain_name
+    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load("policy_"+policy_name_to_load+".p")
+
+    CM.g_use_robot_metrics = False
+
+    ConM.setPolicyName(policy_name_to_add)
+    exec_chrono(update_policy, f"Computing human policy {policy_name_to_add}")
+    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].get_best_metrics()))
+    
+    dump(f'policy_{policy_name_to_load}_{policy_name_to_add}.p')
+
+
+default_metrics={
+    "TimeTaskCompletion" : 0,
+    "TimeEndHumanDuty" : 0,
+    "HumanEffort" : 0,
+    "GlobalEffort" : 0,
+    "NbLastPassiveH": 0, # temp var
+
+    # Cart
+    "AxelsFirst": 0,
+    "BodyFirst": 0,
+    "PassiveWhileHolding" : 0,
+
+    # Stack
+    "PassiveWhileHolding" : 0,
+    "NbDrop" : 0,
+    "Annoying": 0,
+    "PlaceFirstBar": 0,
+}
+
+def update_policy():
     to_merge = set()
     to_propagate = set()
     for leaf_ips in CM.g_FINAL_IPSTATES:
         to_propagate = to_propagate.union({leaf_ips})
         leaf_ps = CM.g_PSTATES[leaf_ips]
-        leaf_ps.best_metrics = {
-            "TimeTaskCompletion" : 0,
-            "TimeEndHumanDuty" : 0,
-            "HumanEffort" : 0,
-            "GlobalEffort" : 0,
-            "NbLastPassiveH": 0, # temp var
+        leaf_ps.set_best_metrics(deepcopy(default_metrics))
 
-            # Cart
-            "AxelsFirst": 0,
-            "BodyFirst": 0,
-            "PassiveWhileHolding" : 0,
-
-            # Stack
-            "PassiveWhileHolding" : 0,
-            "NbDrop" : 0,
-            "Annoying": 0,
-            "PlaceFirstBar": 0,
-        }
-
+    ###############################
     if RENDER_GENERATION_STEP:
         i=0;render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
+    ###############################
+
     while not check_over(to_merge, to_propagate):
         to_merge, to_propagate = propagate(to_merge, to_propagate)
+
+        ###############################
         if RENDER_GENERATION_STEP:
             render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
+        ###############################
+
         to_merge, to_propagate = merge(to_merge, to_propagate)
+
+        ###############################
         if RENDER_GENERATION_STEP:
             render_generation_step(to_merge,to_propagate,filename=f"generation_{i}");i+=1
+        ###############################
 
 def compute_new_metrics_generic(new_metrics, parent_ap):
     new_metrics["TimeTaskCompletion"] += 1
@@ -162,7 +193,7 @@ def compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_prop
     if parent_ap.human_action.name=="drop":
         new_metrics["NbDrop"] += 1
 
-    # Annoying                
+    # Annoying
     if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='y1':
         parent_ps = CM.g_PSTATES[parent_ap.parent]
         for ap in parent_ps.children:
@@ -249,25 +280,24 @@ def propagate(to_merge, to_propagate):
         for parent_ap in ps_to_propagate.parents:
             # TODO: ignore IDLE|IDLE pair ?
 
-            new_metrics = deepcopy(ps_to_propagate.best_metrics)
+            new_metrics = deepcopy(ps_to_propagate.get_best_metrics())
             
             new_metrics = compute_new_metrics_generic(new_metrics, parent_ap)
             # new_metrics = compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate)
             new_metrics = compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate)
             
-
             # store in action_pair
-            parent_ap.best_metrics = new_metrics
+            parent_ap.set_best_metrics(new_metrics)
 
             # check if should keep propagating
             parent_ps = CM.g_PSTATES[parent_ap.parent] #type: CM.PState
             if len(parent_ps.children) > 2:
                 to_merge = to_merge.union({parent_ps.id})
             else:
-                parent_ps.best_metrics = new_metrics
-                parent_ap.best = True
-                parent_ap.best_compliant = True
-                parent_ap.best_compliant_h = True
+                parent_ps.set_best_metrics(new_metrics)
+                parent_ap.set_best(True)
+                parent_ap.set_best_compliant(True)
+                parent_ap.set_best_compliant_h(True)
                 to_propagate = to_propagate.union({parent_ps.id})
                 for c in parent_ps.children:
                     c.rank = 0
@@ -289,7 +319,7 @@ def merge(to_merge, to_propagate):
 
         ok_to_merge = True
         for c in ps_to_merge.children:
-            if not c.is_passive() and c.best_metrics == None:
+            if not c.is_passive() and c.get_best_metrics() == None:
                 ok_to_merge = False
                 break
         
@@ -302,10 +332,10 @@ def merge(to_merge, to_propagate):
             for i,p in enumerate(sorted_pairs):
                 p.rank = i
             best_pair = sorted_pairs[0]
-            best_pair.best = True
-            best_pair.best_compliant = True
-            best_pair.best_compliant_h = True
-            ps_to_merge.best_metrics = best_pair.best_metrics
+            best_pair.set_best(True)
+            best_pair.set_best_compliant(True)
+            best_pair.set_best_compliant_h(True)
+            ps_to_merge.set_best_metrics(best_pair.get_best_metrics())
 
             # extract human option and find best compliant pair for each human option
             # extract human actions
@@ -329,7 +359,7 @@ def merge(to_merge, to_propagate):
 
                 # first is best compliant pair
                 best_compliant_pair = cp_sorted_pairs[0]
-                best_compliant_pair.best_compliant = True
+                best_compliant_pair.set_best_compliant(True)
 
             # extract robot option and find best compliant_h pair for each robot option
             # extract robot actions
@@ -348,7 +378,7 @@ def merge(to_merge, to_propagate):
 
                 # first is best compliant pair
                 best_compliant_pair = cp_sorted_pairs[0]
-                best_compliant_pair.best_compliant_h = True
+                best_compliant_pair.set_best_compliant_h(True)
             
             # add to to_propagate
             to_propagate = to_propagate.union({ips_to_merge})
@@ -383,14 +413,6 @@ def str_print_metrics_priority(metrics):
 
     return s
 
-def generate_policy(policy_name):
-    ConM.setPolicyName(policy_name)
-    print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
-    print(f"Nb states = {len(CM.g_PSTATES)}")
-    exec_chrono(update_robot_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
-    print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].best_metrics))
-    dump(f'policy_{ConM.G_POLICY_NAME}.p')
-
 def compute_number_of_traces():
     print(f"Number of leaves: {len(CM.g_FINAL_IPSTATES)}")
     print(f"Nb states = {len(CM.g_PSTATES)}")
@@ -404,17 +426,11 @@ def compute_number_of_traces():
     print("\t max=", np.max(lengths))
 
 def main():
-    global g_domain_name
     sys.setrecursionlimit(100000)
 
     ##############################################
 
-    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load_solution()
-
-    ##############################################
-
     # Cart
-    # generate_policy('cart_pref1')
     # generate_policy('cart_esti11')
     # generate_policy('cart_esti12')
 
@@ -423,6 +439,17 @@ def main():
     # generate_policy('human_min_work')
     # generate_policy('fake_human_free_early')
     # generate_policy('real_human_free_early')
+
+
+    ##############################################
+
+    # Cart 
+    # add_human_policy('cart_esti11', 'cart_pref1')
+    # add_human_policy('cart_esti12', 'cart_pref1')
+
+    # Stack 
+    # add_human_policy('task_end_early', 'human_min_work')
+    # add_human_policy('fake_human_free_early', 'real_human_free_early')
 
 
     ##############################################

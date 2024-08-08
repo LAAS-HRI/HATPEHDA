@@ -110,7 +110,7 @@ def render_new_sol(show_pstate_id=False, show_pair_rank=False):
 
                     action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name)
-                    if c.best:
+                    if c.get_best():
                         node_style = "rounded,filled"
                         node_fillcolor = "gold"
                         g.node(action_pair_node_name, label=compute_action_pair_label(c, with_rank=show_pair_rank), shape="box", style=node_style, fillcolor=node_fillcolor)
@@ -169,14 +169,14 @@ def render_policy(show_pstate_id=False, show_pair_rank=False):
 
             for c in ps.children:
 
-                if c.best_compliant and c.child!=None:
+                if c.get_best_compliant() and c.child!=None:
                     action_pair_node_name = compute_action_pair_name(c)
 
                     arrowhead = "normal" 
                     arrowsize = "1.0" 
                     node_style = ""
                     node_fillcolor = "lightgrey"
-                    if c.best:
+                    if c.get_best():
                         # arrowhead = "diamond" 
                         # arrowsize = "2.0" 
                         node_style = "rounded,filled"
@@ -288,7 +288,7 @@ def render_generation_step(to_merge,to_propagate,filename='render_dot.gv'):
 
         ps = CM.g_PSTATES[ips]
 
-        color = "white" if ps.best_metrics==None else "red"
+        color = "white" if ps.get_best_metrics()==None else "red"
 
         # check if last
         if ps.children==[]:
@@ -307,8 +307,8 @@ def render_generation_step(to_merge,to_propagate,filename='render_dot.gv'):
 
                     action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name, arrowsize=ar_size)
-                    pair_color = "white" if c.best_metrics==None else "red"
-                    pair_color = "chartreuse2" if c.best else pair_color
+                    pair_color = "white" if c.get_best_metrics()==None else "red"
+                    pair_color = "chartreuse2" if c.get_best() else pair_color
                     g.node(action_pair_node_name, label='', shape="box", style="filled", fillcolor=pair_color, width="0.1", height="0.1", fixedsize="true")
 
                 # if c.child!=None:
@@ -368,7 +368,7 @@ def render_policy_simple():
 
             for c in ps.children:
 
-                if c.best_compliant and c.child!=None:
+                if c.get_best_compliant() and c.child!=None:
 
                     action_pair_node_name = f"{c.human_action.id}-{c.robot_action.id}"
                     g.edge(str(ps.id), action_pair_node_name, arrowsize=ar_size)
@@ -394,8 +394,8 @@ def render_best_trace():
 
     ipstates_to_render = {0}
     ipstates_rendered = set()
-    if CM.g_PSTATES[0].best_metrics!=None:
-        print("Best metrics: ", CM.g_PSTATES[0].best_metrics)
+    if CM.g_PSTATES[0].get_best_metrics()!=None:
+        print("Best metrics: ", CM.g_PSTATES[0].get_best_metrics())
 
     previous_pair_name = None
 
@@ -426,7 +426,7 @@ def render_best_trace():
 
             for c in ps.children:
 
-                if c.best:
+                if c.get_best():
                     action_pair_node_name = compute_action_pair_name(c)
 
                     # check if first pair, connect it to first node
@@ -497,14 +497,14 @@ def render_leaf(leaf_id, show_pstate_id=False, show_only_policy=False, show_pair
 
             for p in ps.parents:
 
-                if (not show_only_policy) or (show_only_policy and p.best_compliant): 
+                if (not show_only_policy) or (show_only_policy and p.get_best_compliant()): 
                     action_pair_node_name = compute_action_pair_name(p)
 
                     arrowhead = "normal" 
                     arrowsize = "1.0" 
                     node_style = ""
                     node_fillcolor = "lightgrey"
-                    if p.best:
+                    if p.get_best():
                         # arrowhead = "diamond" 
                         # arrowsize = "2.0" 
                         node_style = "rounded,filled"
@@ -570,7 +570,7 @@ def explore():
 
                     action_pair_node_name = compute_action_pair_name(c)
                     g.edge(str(ps.id), action_pair_node_name)
-                    if c.best:
+                    if c.get_best():
                         node_style = "rounded,filled"
                         node_fillcolor = "gold"
                         g.node(action_pair_node_name, label=compute_action_pair_label(c, with_rank=show_pair_rank), shape="box", style=node_style, fillcolor=node_fillcolor)
@@ -625,7 +625,7 @@ def explore():
 
                             action_pair_node_name = compute_action_pair_name(c)
                             g.edge(str(ps.id), action_pair_node_name)
-                            if c.best:
+                            if c.get_best():
                                 node_style = "rounded,filled"
                                 node_fillcolor = "gold"
                                 g.node(action_pair_node_name, label=compute_action_pair_label(c, with_rank=show_pair_rank), shape="box", style=node_style, fillcolor=node_fillcolor)
@@ -642,7 +642,7 @@ def explore():
 
 if __name__ == "__main__":
 
-    sys.argv.append('policy_cart_pref1.p')    
+    sys.argv.append('policy_task_end_early_human_min_work.p')    
     # sys.argv.append('search_space.p')    
 
     if len(sys.argv)<=1:

@@ -28,13 +28,46 @@ class ActionPair:
         self.parent = None # id of parent PState
         self.child = None # id of child PState
 
-        self.best_metrics = None
-        self.best = False
-        self.best_compliant = False
-        self.best_compliant_h = False
+        self._best_metrics = None
+        self._best = False
+        self._best_compliant = False
+        self._best_compliant_h = False
+
+        self._h_best_metrics = None
+        self._h_best = False
+        self._h_best_compliant = False
+        self._h_best_compliant_h = False
+
+    def set_best_metrics(self, value):
+        attr_name = '_best_metrics'
+        setattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name, value)
+    def get_best_metrics(self):
+        attr_name = '_best_metrics'
+        return getattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name)
+
+    def set_best(self, value):
+        attr_name = '_best'
+        setattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name, value)
+    def get_best(self):
+        attr_name = '_best'
+        return getattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name)
+
+    def set_best_compliant(self, value):
+        attr_name = '_best_compliant'
+        setattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name, value)
+    def get_best_compliant(self):
+        attr_name = '_best_compliant'
+        return getattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name)
+
+    def set_best_compliant_h(self, value):
+        attr_name = '_best_compliant_h'
+        setattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name, value)
+    def get_best_compliant_h(self):
+        attr_name = '_best_compliant_h'
+        return getattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name)
 
     def __lt__(self, other):
-        return compare_metrics(self.best_metrics, other.best_metrics, get_exec_prefs()[G_POLICY_NAME])
+        return compare_metrics( self.get_best_metrics(), other.get_best_metrics(), get_exec_prefs()[G_POLICY_NAME])
 
     def getBestRank(self):
         return getattr(self, "best_rank_"+G_POLICY_NAME)

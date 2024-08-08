@@ -240,6 +240,7 @@ class InitState:
         return s
 
 ## Planning State ##
+g_use_robot_metrics = True
 class PState:
     __ID = 0
     def __init__(self) -> None:
@@ -250,11 +251,19 @@ class PState:
         self.id = PState.__ID
         PState.__ID += 1
 
-        self.best_metrics = None
+        self._best_metrics = None
+        self._h_best_metrics = None
 
         # Structure
         self.parents = [] # list of ConM.ActionPair
         self.children = [] # list of ConM.ActionPair
+
+    def set_best_metrics(self, value):
+        attr_name = '_best_metrics'
+        setattr(self, attr_name if g_use_robot_metrics else '_h'+attr_name, value)
+    def get_best_metrics(self):
+        attr_name = '_best_metrics'
+        return getattr(self, attr_name if g_use_robot_metrics else '_h'+attr_name)
     
     def are_similar(ips1: int, ips2: int):
         ps1 = g_PSTATES[ips1]
