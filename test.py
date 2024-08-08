@@ -5,6 +5,14 @@ def sum_n_first_int(n):
     return s
 
 def compute(current, mini, maxi):
+    '''
+    Receives an ordered list of values.
+    The order corresponds to the priority order of metrics in pref
+    Each value corresponds to the associated metric
+    current is the metrics to obtain a score from
+    mini the minimal value of each metric
+    maxi the maximal value of each metric
+    '''
     N = len(current)
     D = 0.1
 
