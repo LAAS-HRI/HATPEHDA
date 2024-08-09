@@ -43,3 +43,28 @@ current = [14, 15, 15]
 
 print(f"score = {compute(current, mini, maxi)}")
 
+"""
+
+weights = [ (1.0 + sum_n_first_int(N-1) * D) / N ]
+
+sum_weights = 1.0
+w_0 = (1.0 + sum_n_first_int(N-1) * D) / N
+w_1 = w_0 - D
+w_2 = w_1 - D
+w_3 = w_2 - D
+w_3 = 0.05
+
+w_3 = w_0 - D - D - D 
+w_3 = w_0 - 3 * D
+w_i = w_0 - i * D
+
+w_N-1 = w_0 - (N-1) * D = 0.05
+w_0 = 0.05 + (N-1) * D
+(1.0 + sum_n_first_int(N-1) * D) / N = 0.05 + (N-1) * D
+1.0 + sum_n_first_int(N-1) * D = 0.05 * N + (N-1) * N * D
+sum_n_first_int(N-1) * D - (N-1) * N * D = 0.05 * N - 1.0
+D * (sum_n_first_int(N-1) - (N-1) * N) = 0.05 * N - 1.0
+D = (0.05 * N - 1.0) / (sum_n_first_int(N-1) - (N-1) * N)
+
+
+"""
