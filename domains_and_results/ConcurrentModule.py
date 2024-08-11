@@ -67,7 +67,7 @@ class ActionPair:
         return getattr(self, attr_name if CM.g_use_robot_metrics else '_h'+attr_name)
 
     def __lt__(self, other):
-        return compare_metrics( self.get_best_metrics(), other.get_best_metrics(), get_exec_prefs()[G_POLICY_NAME])
+        return compare_metrics( self.get_best_metrics(), other.get_best_metrics(), g_prefs[G_POLICY_NAME])
 
     def getBestRank(self):
         return getattr(self, "best_rank_"+G_POLICY_NAME)
@@ -632,73 +632,70 @@ def refine_method(task_to_refine, state, new_agenda):
 #############
 ## METRICS ##
 #############
-def get_exec_prefs():
-    prefs = {
-        "cart_pref1": [
-            ("AxelsFirst",              True),
-            ("TimeEndHumanDuty",        False),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("TimeTaskCompletion",      False),
-            ("PassiveWhileHolding",     False),
-        ],
-        "cart_esti11": [
-            ("BodyFirst",               True),
-            ("TimeTaskCompletion",      False),
-            ("TimeEndHumanDuty",        False),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("PassiveWhileHolding",     False),
-        ],
-        "cart_esti12": [
-            ("TimeTaskCompletion",      False),
-            ("TimeEndHumanDuty",        False),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("TimeTaskCompletion",      False),
-            ("PassiveWhileHolding",     False),
-        ],
+g_prefs = {
+    "cart_pref1": [
+        ("AxelsFirst",              True),
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("TimeTaskCompletion",      False),
+        ("PassiveWhileHolding",     False),
+    ],
+    "cart_esti11": [
+        ("BodyFirst",               True),
+        ("TimeTaskCompletion",      False),
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("PassiveWhileHolding",     False),
+    ],
+    "cart_esti12": [
+        ("TimeTaskCompletion",      False),
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("TimeTaskCompletion",      False),
+        ("PassiveWhileHolding",     False),
+    ],
 
-        "human_min_work": [
-            ("Annoying",                True),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("PassiveWhileHolding",     False),
-            ("TimeTaskCompletion",      False),
-            ("TimeEndHumanDuty",        False),
-            ("NbDrop",                  False),
-        ],
+    "human_min_work": [
+        ("Annoying",                True),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("PassiveWhileHolding",     False),
+        ("TimeTaskCompletion",      False),
+        ("TimeEndHumanDuty",        False),
+        ("NbDrop",                  False),
+    ],
 
-        "fake_human_free_early": [
-            ("PlaceFirstBar",           True),
-            ("TimeEndHumanDuty",        False),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("TimeTaskCompletion",      False),
-            ("PassiveWhileHolding",     False),
-            ("NbDrop",                  False),
-        ],
+    "fake_human_free_early": [
+        ("PlaceFirstBar",           True),
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("TimeTaskCompletion",      False),
+        ("PassiveWhileHolding",     False),
+        ("NbDrop",                  False),
+    ],
 
-        "real_human_free_early": [
-            ("TimeEndHumanDuty",        False),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("TimeTaskCompletion",      False),
-            ("PassiveWhileHolding",     False),
-            ("NbDrop",                  False),
-        ],
+    "real_human_free_early": [
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("TimeTaskCompletion",      False),
+        ("PassiveWhileHolding",     False),
+        ("NbDrop",                  False),
+    ],
 
-        "task_end_early": [
-            ("TimeTaskCompletion",      False),
-            ("TimeEndHumanDuty",        False),
-            ("HumanEffort",             False),
-            ("GlobalEffort",            False),
-            ("PassiveWhileHolding",     False),
-            ("NbDrop",                  False),
-        ],
-    }
-
-    return prefs
+    "task_end_early": [
+        ("TimeTaskCompletion",      False),
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("PassiveWhileHolding",     False),
+        ("NbDrop",                  False),
+    ],
+}
 
 def compare_metrics(m1, m2, criteria):
     """ Returns True if m1 if better than m2 """

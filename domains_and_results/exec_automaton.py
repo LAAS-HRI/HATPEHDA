@@ -202,13 +202,13 @@ if __name__ == "__main__":
     # Convert metrics to ordered list
     print("\nRobot metrics:")
     r_list = []
-    for i, m in enumerate(ConM.get_exec_prefs()[robot_esti]):
+    for i, m in enumerate(ConM.g_prefs[robot_esti]):
         print(f"\t{m[0]}: {metrics[m[0]]} ({min_robot_esti[i]} > {max_robot_esti[i]})")
         r_list.append( metrics[m[0]] )
 
     print("\nHuman metrics:")
     h_list = []
-    for i, m in enumerate(ConM.get_exec_prefs()[human_pref]):
+    for i, m in enumerate(ConM.g_prefs[human_pref]):
         print(f"\t{m[0]}: {metrics[m[0]]} ({min_human_pref[i]} > {max_human_pref[i]})")
         h_list.append( metrics[m[0]] )
 

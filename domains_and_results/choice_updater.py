@@ -403,7 +403,7 @@ def exec_chrono(func, msg):
 def str_print_metrics_priority(metrics):
     s = '{'
 
-    criteria = ConM.get_exec_prefs()[ConM.G_POLICY_NAME]
+    criteria = ConM.g_prefs[ConM.G_POLICY_NAME]
 
     for c in criteria:
         c = c[0]
