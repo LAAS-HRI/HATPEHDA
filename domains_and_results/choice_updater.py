@@ -65,11 +65,10 @@ def compute_traces(ips=0, current_length=0):
 from render import render_generation_step
 RENDER_GENERATION_STEP = False
 
-
-
-def generate_policy(policy_name):
+def generate_policy(policy_name, load_dump=True):
     global g_domain_name
-    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load_solution()
+    if load_dump:
+        g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load_solution()
 
     CM.g_use_robot_metrics = True
 
@@ -78,19 +77,21 @@ def generate_policy(policy_name):
     print(f"Nb states = {len(CM.g_PSTATES)}")
     exec_chrono(update_policy, f"Computing robot policy {ConM.G_POLICY_NAME}")
     print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].get_best_metrics()))
-    dump(f'policy_{ConM.G_POLICY_NAME}.p')
+    if load_dump:
+        dump(f'policy_{ConM.G_POLICY_NAME}.p')
 
-def add_human_policy(policy_name_to_load, policy_name_to_add):
+def add_human_policy(policy_name_to_load, policy_name_to_add, load_dump=True):
     global g_domain_name
-    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load("policy_"+policy_name_to_load+".p")
+    if load_dump:
+        g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load("policy_"+policy_name_to_load+".p")
 
     CM.g_use_robot_metrics = False
 
     ConM.setPolicyName(policy_name_to_add)
     exec_chrono(update_policy, f"Computing human policy {policy_name_to_add}")
     print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].get_best_metrics()))
-    
-    dump(f'policy_{policy_name_to_load}_{policy_name_to_add}.p')
+    if load_dump:
+        dump(f'policy_{policy_name_to_load}_{policy_name_to_add}.p')
 
 
 default_metrics={
