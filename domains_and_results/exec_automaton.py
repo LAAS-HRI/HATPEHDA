@@ -103,41 +103,12 @@ def get_pair_str(pair):
 
     return f"{h_str} | {r_str}"
 
-
-from choice_updater import compute_new_metrics_generic
-from choice_updater import compute_new_metrics_domain_specific_cart
-from choice_updater import compute_new_metrics_domain_specific_stack
-from choice_updater import default_metrics
-
-if __name__ == "__main__":
-    sys.setrecursionlimit(100000)
-    robot_esti = "task_end_early"
-    human_pref = "human_min_work"
-    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load(f"policy_{robot_esti}_{human_pref}.p")
-
-	# best_metrics:  {'TimeTaskCompletion': 11, 'TimeEndHumanDuty': 8, 'HumanEffort': 8, 'GlobalEffort': 16, 'PassiveWhileHolding': 0, 'NbDrop': 0}
-	# best_metrics:  {'TimeTaskCompletion': 23, 'TimeEndHumanDuty': 22, 'HumanEffort': 12, 'GlobalEffort': 22, 'PassiveWhileHolding': 18, 'NbDrop': 3}
-
-    min_robot_esti = [11, 8, 8, 16, 0, 0]
-    max_robot_esti = [23, 22, 12, 22, 18, 3]
-
-    min_human_pref = [24, 2, 18, 0, 19, 6, 1]
-    max_human_pref = [-9, 12, 22, 14, 23, 22, 3]
-
-
-    """
-    Load policy including both robot and human choices
-    Simulate execution, each agent following its policy
-    Save the list of simulated ActionPair (Trace)
-    Find a way to compute the metrics of such trace
-    Make sure to obtain the minimal and maximal values of both policy
-    Send the obtained metrics, and associated boundary values to the score computation
-    """
+def simulate_exec(regime):
 
     trace = [] # list of ConM.ActionPair 
     state = CM.g_PSTATES[0]
 
-    HUMAN_FIRST = True
+    HUMAN_FIRST = regime=="HF"
     ROBOT_FIRST = not HUMAN_FIRST
 
     while state.id not in CM.g_FINAL_IPSTATES:
@@ -199,6 +170,8 @@ if __name__ == "__main__":
 
     print(metrics)
 
+    return metrics
+
     # Convert metrics to ordered list
     print("\nRobot metrics:")
     r_list = []
@@ -217,81 +190,102 @@ if __name__ == "__main__":
     H_score = compute_score(h_list, min_human_pref, max_human_pref)
     print(f"R_score= {R_score}\nH_score= {H_score}")
 
-    print("voila")
+from choice_updater import compute_new_metrics_generic
+from choice_updater import compute_new_metrics_domain_specific_cart
+from choice_updater import compute_new_metrics_domain_specific_stack
+from choice_updater import default_metrics
 
-    exit()
+from choice_updater import generate_policy, add_human_policy
 
-    ##############################################
+if __name__ == "__main__":
+    sys.setrecursionlimit(100000)
+    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load(f"search_space.p")
 
-
-    r_criteria = [
-        ("TimeEndHumanDuty",    False),
-        ("HumanEffort",         False),
-        ("TimeTaskCompletion",  False),
-        ("GlobalEffort",        False),
-        # ("RiskConflict",      False),
+    r_pref_dyn = [
+        ("TimeTaskCompletion",      False),
+        ("TimeEndHumanDuty",        False),
     ]
-    h_criteria = [
-        ("TimeEndHumanDuty",    True),
-        ("HumanEffort",         True),
-        ("TimeTaskCompletion",  True),
-        ("GlobalEffort",        True),
-        # ("RiskConflict",      False),
+    r_pref_static = [
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+        ("PassiveWhileHolding",     False),
+        ("NbDrop",                  False),
     ]
-    do_plot=False
-    solutions = []
+    h_pref_dyn = [
+        ("TimeTaskCompletion",      False),
+        ("TimeEndHumanDuty",        False),
+        ("HumanEffort",             False),
+        ("GlobalEffort",            False),
+    ]
+    h_pref_static = [
+        ("PassiveWhileHolding",     False),
+        ("NbDrop",                  False),
+    ]
 
 
-    permu_r = list( permutations(r_criteria) )
-    permu_h = list( permutations(h_criteria) )
+    permu_h = list( permutations(h_pref_dyn) )
+    permu_r = list( permutations(r_pref_dyn) )
 
-    # permu_r = [ r_criteria ]
-    # permu_h = [ h_criteria ]
-    # do_plot=True
-
-    bar = IncrementalBar("Computing", max=len(permu_r)*len(permu_h), width=40, suffix='%(index)d/%(max)d - %(elapsed_td)s - ETA=%(eta_td)s')
+    all_metrics = []
 
     for r_p in permu_r:
         for h_p in permu_h:
-            r_ranked_leaves, h_ranked_leaves = set_choices(begin_step,r_p,h_p)
-            result = main_exec(domain_name, solution_tree, begin_step,r_p,h_p, r_ranked_leaves, h_ranked_leaves)
+            ConM.g_prefs["r_pref"] = list(r_p) + r_pref_static
+            ConM.g_prefs["h_pref"] = list(h_p) + h_pref_static
+            generate_policy("r_pref", load_dump=False)
+            add_human_policy("r_pref", "h_pref", load_dump=False)
 
-            if result[0]==-1:
-                print("Failed... -1")
-            else:
-                (id, r_score, h_score, seed, r_ranked_leaves, h_ranked_leaves) = result
+            all_metrics.append( simulate_exec("HF") )
 
-                # find step with with id
-                nb_sols = len(h_ranked_leaves)
-                solution_step = None
-                for l in begin_step.get_final_leaves():
-                    if l.id == id:
-                        solution_step = l
-                        break
-                score_r = convert_rank_to_score(solution_step.get_f_leaf().branch_rank_r, nb_sols)
-                score_h = convert_rank_to_score(solution_step.get_f_leaf().branch_rank_h, nb_sols)
-                solutions.append( (score_h,score_r) )
-                # print(f"solution: r#{score_r:.2f}-h#{score_h:.2f}-{nb_sols}")
-                bar.next()
+            
 
-                
-                if do_plot:
-                    xdata = []
-                    ydata = []
-                    nb_sols = len(h_ranked_leaves)
-                    for l in h_ranked_leaves:
-                        xdata.append( convert_rank_to_score(l.get_f_leaf().branch_rank_h, nb_sols) )
-                        ydata.append( convert_rank_to_score(find_r_rank_of_id(h_ranked_leaves, l.id),nb_sols) )
+    # Get min and max of metrics
+    min_robot_metric = {}
+    max_robot_metric = {}
+    for m in ConM.g_prefs["r_pref"]:
+        for metric in all_metrics:
+            try:
+                min_robot_metric[m[0]] = min(min_robot_metric[m[0]], metric[m[0]])
+                max_robot_metric[m[0]] = max(max_robot_metric[m[0]], metric[m[0]])
+            except:
+                min_robot_metric[m[0]] = metric[m[0]]
+                max_robot_metric[m[0]] = metric[m[0]]
+    min_human_metric = {}
+    max_human_metric = {}
+    for m in ConM.g_prefs["h_pref"]:
+        for metric in all_metrics:
+            try:
+                min_human_metric[m[0]] = min(min_human_metric[m[0]], metric[m[0]])
+                max_human_metric[m[0]] = max(max_human_metric[m[0]], metric[m[0]])
+            except:
+                min_human_metric[m[0]] = metric[m[0]]
+                max_human_metric[m[0]] = metric[m[0]]
 
-                    # plt.figure(figsize=(3, 3))
-                    plt.plot(xdata, ydata, 'b+')
-                    plt.plot([score_h], [score_r], 'ro')
-                    plt.xlabel("score human solution")
-                    plt.ylabel("score robot solution")
-                    plt.show()
-    print("\nfinish")
+    # Compute score
+    scores = [] # (r_score, h_score)
+    i = 0
+    for r_p in permu_r:
+        for h_p in permu_h:
 
-    dill.dump(solutions, open(CM.path + "solution_exec.p", "wb"))
-    # print(solutions)
+            metrics = all_metrics[i]
+            i+=1
 
+            r_min_list = []
+            r_max_list = []
+            r_list = []
+            for m in permu_r:
+                r_min_list.append( metrics[m[0]])
+                r_max_list.append( metrics[m[0]])
+                r_list.append( metrics[m[0]] )
+            h_min_list = []
+            h_max_list = []
+            h_list = []
+            for m in permu_h:
+                h_min_list.append( metrics[m[0]])
+                h_max_list.append( metrics[m[0]])
+                h_list.append( metrics[m[0]] )
 
+            # Get score
+            R_score = compute_score(r_list, r_min_list, r_max_list)
+            H_score = compute_score(h_list, h_min_list, r_max_list)
+            print(f"R_score= {R_score}\nH_score= {H_score}")
