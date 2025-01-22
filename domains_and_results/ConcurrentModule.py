@@ -28,11 +28,14 @@ class ActionPair:
         self.parent = None # id of parent PState
         self.child = None # id of child PState
 
-        self._best_metrics = None
-        self._best = False
-        self._best_compliant = False
-        self._best_compliant_h = False
+        
+        # Using estimated preferences (Robot policy)
+        self._best_metrics = None       # best reachable metrics
+        self._best = False              # is it the overall best pair for current step?
+        self._best_compliant = False    # is it the best pair given the corresponding HA?
+        self._best_compliant_h = False  # is it the best pair given the corresponding RA?
 
+        # Same but using real preferences (Human policy)
         self._h_best_metrics = None
         self._h_best = False
         self._h_best_compliant = False

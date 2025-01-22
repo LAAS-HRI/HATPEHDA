@@ -199,7 +199,8 @@ from choice_updater import generate_policy, add_human_policy
 
 if __name__ == "__main__":
     sys.setrecursionlimit(100000)
-    g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load(f"search_space.p")
+    domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load(f"search_space.p")
+    CM.set_domain_name(domain_name)
 
     r_pref_dyn = [
         ("TimeTaskCompletion",      False),

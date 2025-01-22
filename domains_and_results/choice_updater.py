@@ -69,6 +69,7 @@ def generate_policy(policy_name, load_dump=True):
     global g_domain_name
     if load_dump:
         g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load_solution()
+        CM.set_domain_name(g_domain_name)
 
     CM.g_use_robot_metrics = True
 
@@ -84,6 +85,7 @@ def add_human_policy(policy_name_to_load, policy_name_to_add, load_dump=True):
     global g_domain_name
     if load_dump:
         g_domain_name, CM.g_PSTATES, CM.g_FINAL_IPSTATES, CM.g_BACK_EDGES = load("policy_"+policy_name_to_load+".p")
+        CM.set_domain_name(g_domain_name)
 
     CM.g_use_robot_metrics = False
 
@@ -92,6 +94,8 @@ def add_human_policy(policy_name_to_load, policy_name_to_add, load_dump=True):
     print("\tbest_metrics: ", str_print_metrics_priority(CM.g_PSTATES[0].get_best_metrics()))
     if load_dump:
         dump(f'policy_{policy_name_to_load}_{policy_name_to_add}.p')
+
+    CM.g_use_robot_metrics = True
 
 
 default_metrics={
@@ -200,10 +204,12 @@ def compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_prop
         for ap in parent_ps.children:
             if ap.human_action.name=='pick' and ap.human_action.parameters[0]=='y1':
                 new_metrics['Annoying'] += 5
+                # if robot picks y1 when human could pick it
                 break
         for ap in parent_ps.children:
             if ap.robot_action.name=='pick' and ap.robot_action.parameters[0]=='r1':
                 new_metrics['Annoying'] += 3
+                # if robot picks y1 when could also pick r1
                 break
     if parent_ap.human_action.name=='pick' and parent_ap.human_action.parameters[0]=='y1':
         parent_ps = CM.g_PSTATES[parent_ap.parent]
@@ -215,6 +221,7 @@ def compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_prop
         if found:
             if parent_ap.robot_action.is_passive():
                 new_metrics['Annoying'] -= 3
+                # if robot stay passive instead of picking y1 and while human picks y1
 
     if parent_ap.robot_action.name=='pick' and parent_ap.robot_action.parameters[0]=='o1':
         parent_ps = CM.g_PSTATES[parent_ap.parent]
@@ -284,9 +291,13 @@ def propagate(to_merge, to_propagate):
             new_metrics = deepcopy(ps_to_propagate.get_best_metrics())
             
             new_metrics = compute_new_metrics_generic(new_metrics, parent_ap)
-            # new_metrics = compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate)
-            new_metrics = compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate)
-            
+            if CM.g_domain_name == 'stack_empiler_2':
+                new_metrics = compute_new_metrics_domain_specific_stack(new_metrics, parent_ap, ps_to_propagate)
+            elif CM.g_domain_name == 'cart_hoffman':
+                new_metrics = compute_new_metrics_domain_specific_cart(new_metrics, parent_ap, ps_to_propagate)
+            else:
+                raise Exception('propagate: domain name unknown')
+
             # store in action_pair
             parent_ap.set_best_metrics(new_metrics)
 
